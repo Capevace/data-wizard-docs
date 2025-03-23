@@ -4,7 +4,7 @@
   "name": "Data Wizard – AI Powered Data Extraction",
   "colors": {
     "primary": "#47819E",
-    "light": "#47819E",
+    "light": "#5D99B6",
     "dark": "#47819E"
   },
   "favicon": "images/favicon.png",
@@ -28,7 +28,8 @@
               "preprocessing",
               "strategies",
               "configure-llm",
-              "deployment"
+              "deployment",
+              "custom-strategies"
             ]
           },
           {
@@ -36,6 +37,16 @@
             "pages": [
               "integrate",
               "apis"
+            ]
+          },
+          {
+            "group": "Examples",
+            "pages": [
+              "examples/paper-invoice-to-structured-data",
+              "examples/products-from-brochures",
+              "examples/customer-feedback-to-data",
+              "examples/data-from-paper-tax-forms",
+              "examples/real-estate-properties-from-exposes"
             ]
           }
         ]
@@ -74,8 +85,8 @@
     }
   },
   "logo": {
-    "light": "./images/data-wizard-logo.svg",
-    "dark": "./images/data-wizard-logo.svg"
+    "light": "images/data-wizard-logo.svg",
+    "dark": "images/data-wizard-logo.svg"
   },
   "navbar": {
     "links": [

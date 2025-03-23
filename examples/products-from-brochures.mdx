@@ -1,0 +1,138 @@
+---
+title: 'Products from Brochures'
+description: 'In this example we try to extract a lot of tiny pieces of information from a document, in this case product names and prices. The example is useful for automatically importing product and pricing information from online brochures for competitor analysis or other use cases.'
+---
+
+If you want to try this extractor, you can download it here:
+
+<Card icon="download" title="Download Product Brochure Extractor" href="#" horizontal>
+    `product-brochure-extractor.json`
+</Card>
+
+<Tip>
+[How do I import extractors?](/docs/import-export)
+</Tip>
+
+
+## Document Input Examples
+
+Here are some examples of the types of documents that this extractor can process.
+
+<CardGroup cols={2}>
+    <Card title="PDF Brochures" icon="newspaper">
+        Supermarket brochures are often available as PDF files online. These brochures contain product information and pricing data.
+    </Card>
+    <Card title="Online Advertisements" icon="globe">
+        If you take screenshots of competitor advertisements, you could use this tool to extract product and pricing information for better analysis.
+    </Card>
+</CardGroup>
+
+## Example Output
+
+This extractor will produce JSON data that looks like the following:
+
+<CodeGroup>
+
+```json Product Brochure Data
+[
+    {
+        "name": "Bottle of red wine",
+        "original_price": 14.99,
+        "discounted_price": 9.99
+    },
+    {
+        "name": "Bottle of white wine",
+        "original_price": 12.99,
+        "discounted_price": 6.99
+    }
+]
+```
+
+</CodeGroup>
+
+## Extractor
+
+Here's a template for a product brochure extractor with some explanations for why some settings are chosen.
+
+### JSON Schema
+
+Here's the example JSON schema to extract product data from brochures. It extracts a list of products, each with a name, original price, and discounted price.
+The schema also contains validation rules for each field to ensure the extracted data is accurate and consistent.
+
+<Accordion title="Show Product Brochure Schema">
+```json
+{
+  "type": "object",
+  "required": [
+    "products"
+  ],
+  "properties": {
+    "products": {
+      "type": "array",
+      "magic_ui": "table",
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "original_price"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 255,
+            "description": "Name of the product"
+          },
+          "original_price": {
+            "type": "number",
+            "minimum": 0,
+            "multipleOf": 0.01,
+            "description": "Original price of the product"
+          },
+          "discounted_price": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "minimum": 0,
+            "multipleOf": 0.01,
+            "description": "The discounted price for all customers. Prices only applying to customers with a membership card should not be included here."
+          }
+        }
+      }
+    }
+  }
+}
+```
+</Accordion>
+
+### Extraction Strategy
+
+#### Strategy: `parallel-auto-merge`
+For supermarket brochures with many independent products, the `parallel-auto-merge` strategy is the most effective. It provides fast extraction times and ensures all products are extracted, even from large brochures.
+
+#### LLM Recommendation: `google/gemini-2.0-flash-lite`
+For product extraction from brochures, `google/gemini-2.0-flash-lite` is a good and cost-effective choice. It provides a good balance between performance and cost, and is well-suited for extracting data from structured documents like brochures.
+
+### Context Settings
+
+#### Chunk Size: `15k-50k`
+A chunk size of around 15.000-50.000 tokens is sufficient for product brochures, as each chunk typically contains multiple independent product listings.
+We don't want to use a chunk size that is too large, as it may cause the extractor to miss some products.
+
+#### Include Text: `true`
+Including text is essential for extracting product names, descriptions, and prices.
+
+#### Include Embedded Images: `false`
+Embedded images are not necessary for extracting product data from brochures and can be excluded to reduce token usage and processing time.
+
+If we wanted to, we could enable this to allow the LLM to assign product images for ERP systems or online shops.
+
+#### Include Page Screenshots: `true`
+Page screenshots are helpful if the input data is not OCR'd or if the layout of the brochure is important to determine the prices.
+
+#### Mark Images with IDs: `false`
+Since we are not associating images with specific product data in this example, marking images with IDs is not needed.
+
+import More from '/snippets/more.mdx'
+
+<More/>

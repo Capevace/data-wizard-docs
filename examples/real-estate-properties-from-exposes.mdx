@@ -1,0 +1,208 @@
+---
+title: 'Real Estate from Exposés'
+description: 'Automatically import data from PDF exposés into your real estate platform or other similar applications. This is an example showing how to assign the embedded images as pictures to data entities.'
+---
+
+If you want to try this extractor, you can download it here:
+
+<Card icon="download" title="Download Real Estate Extractor" href="#" horizontal>
+    `real-estate-extractor.json`
+</Card>
+
+<Tip>
+[How do I import extractors?](/docs/import-export)
+</Tip>
+
+
+## Document Input Examples
+
+Here are some examples of the types of documents that this extractor can process.
+
+<CardGroup cols={2}>
+    <Card title="PDF Exposés" icon="file-pdf" img="../images/examples/expose.png">
+        Real estate exposés are often delivered as PDF files. These can be downloaded from real estate portals or provided by real estate agents.
+    </Card>
+    <Card title="Web Listings" icon="globe" img="../images/examples/listing.png">
+        A lot of real estate data is available online. This extractor can help you get this information out of downloaded webpage data.
+    </Card>
+</CardGroup>
+
+## Example Output
+
+This extractor will produce JSON data that looks like the following:
+
+<CodeGroup>
+
+```json Real Estate Data
+{
+    "name": "Modern Apartment in City Center",
+    "address": "12 Example Street",
+    "description_text": "Spacious apartment with modern amenities in a vibrant city center location.",
+    "units": [
+        {
+            "usages": [
+                "living"
+            ],
+            "label": "Apartment 1",
+            "floor": "2nd Floor",
+            "rent_per_m2": 15.50,
+            "images": [
+                "artifact:images/image1.png",
+                "artifact:images/image2.png"
+            ],
+            "floorplans": [
+                 "artifact:images/image7.png"
+            ]
+        },
+        {
+            "usages": [
+                "living"
+            ],
+            "label": "Apartment 2",
+            "floor": "3rd Floor",
+            "rent_per_m2": 16.00,
+            "images": [],
+            "floorplans": []
+        }
+    ],
+    "images": [
+        "artifact:images/image9.png"
+    ],
+    "floorplans": []
+}
+```
+
+</CodeGroup>
+
+## Extractor
+
+Here's a template for a real estate exposé extractor with some explanations for why some settings are chosen.
+
+### JSON Schema
+
+Here's the example JSON schema to extract real estate data. It includes information about the property, units, images and floorplans.
+The schema also contains validation rules for each field to ensure the extracted data is accurate and consistent.
+
+<Accordion title="Show Real Estate Schema">
+```json
+{
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Name of the real estate property"
+    },
+    "address": {
+      "type": "string",
+      "description": "Address of the real estate property"
+    },
+    "description_text": {
+      "type": "string",
+      "description": "Short description of the real estate property"
+    },
+    "units": {
+      "type": "array",
+      "description": "List of rentable units",
+      "items": {
+        "type": "object",
+        "properties": {
+          "usages": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Usages of the unit (e.g., living, office, retail)"
+          },
+          "label": {
+            "type": "string",
+            "description": "Label or name of the unit"
+          },
+          "floor": {
+            "type": "string",
+            "description": "Floor level of the unit"
+          },
+          "rent_per_m2": {
+            "type": "number",
+            "description": "Rent price per square meter"
+          },
+          "images": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "artifact-id"
+            },
+            "description": "Images of the unit (artifact IDs)"
+          },
+          "floorplans": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "artifact-id"
+            },
+            "description": "Floorplans of the unit (artifact IDs)"
+          }
+        },
+        "required": [
+          "usages",
+          "label",
+          "floor",
+          "rent_per_m2"
+        ]
+      }
+    },
+    "images": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "format": "artifact-id"
+      },
+      "description": "Images of the property (artifact IDs)"
+    },
+    "floorplans": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "format": "artifact-id"
+      },
+      "description": "Floorplans of the property (artifact IDs)"
+    }
+  },
+  "required": [
+    "name",
+    "address",
+    "description_text",
+    "units"
+  ]
+}
+```
+</Accordion>
+
+### Extraction Strategy
+
+#### Strategy: `sequential-auto-merge`
+The `sequential-auto-merge` strategy is a good choice for real estate exposés because it processes the document sequentially, retaining context between pages. The auto-merging allows smaller entities like units or images to be merged together more effectively.
+
+#### LLM Recommendation: `google/gemini-2.0-flash`
+This model is a good choice for real estate exposés because of its vision capabilities and large context window. It is also relatively cheap to use and provides good performance for data extraction tasks. You can also use `google/gemini-2.0-flash-lite` for cost savings.
+
+
+### Context Settings
+
+#### Chunk Size: `75k`
+A chunk size of around 75.000 tokens should be enough to cover most real estate exposés.
+
+#### Include Text: `true`
+Including text is essential for extracting textual information from the exposés.
+
+#### Include Embedded Images: `true`
+Including embedded images is crucial for associating images with specific units or the property itself. This allows the LLM to understand the context of the images and extract relevant data.
+
+#### Include Page Screenshots: `true`
+Page screenshots provide layout context, which is important for the LLM to understand the structure of the exposé and extract data accurately.
+
+#### Mark Images with IDs: `true`
+Marking images with IDs is necessary to associate images with data entities (property or units). This ensures that the extracted data includes references to the correct images.
+
+import More from '/snippets/more.mdx'
+
+<More/>

@@ -1,0 +1,97 @@
+---
+title: Custom Strategies
+description: 'For more control over the extraction process, you can create custom strategies tailored to your specific document types or complex extraction tasks.'
+---
+
+<Steps>
+    <Step title="Create a Custom Strategy">
+        Create a class implements the `Strategy` interface.
+        Doing so by extending the `Extractor` class is a good starting point for custom strategies as it contains some useful methods that you probably don't want to implement yourself.
+
+        ```php
+        use Mateffy\Magic\Extraction\Strategies\Strategy;
+        use Mateffy\Magic\Extraction\Strategies\Extractor;
+
+        // Create a custom strategy
+        class MyCustomStrategy extends Extractor {}
+
+        // Extend an existing strategy
+        class MyCustomizedStrategy extends SequentialStrategy {}
+
+        // Or completely custom by doing everything yourself
+        class MyCompletelyCustomStrategy implements Strategy {}
+        ```
+
+    </Step>
+    <Step title="Implement the Strategy">
+        Implement your strategy in the `run()` method, which takes the artifacts as an array.
+
+        The `array` that the run method returns is used as the final output data.
+
+        <CodeGroup>
+
+        ```php New strategy
+        use Mateffy\Magic\Extraction\Strategies\Extractor;
+
+        class MyCustomStrategy extends Extractor
+        {
+            public function run(array $artifacts): array
+            {
+                // Implement your strategy here
+            }
+        }
+        ```
+
+        ```php Extend an existing strategy
+        use Mateffy\Magic\Extraction\Strategies\Extractor;
+        use Mateffy\Magic\Exceptions\JsonSchemaValidationError;
+
+        class ValidatedInvoiceStrategy extends ParallelStrategy
+        {
+            public function run(array $artifacts): array
+            {
+                $data = parent::run($artifacts);
+
+                // Validate an invoice total:
+
+                $total = 0;
+
+                foreach ($data['line_items'] as $item) {
+                    $total += $item['amount'];
+                }
+
+                if ($total !== $data['total']) {
+                    throw new \JsonSchemaValidationError(
+                        'Invoice total does not match the sum of line items'
+                    );
+                }
+
+                // The returned data is now
+                // guaranteed to be valid invoice data.
+                return $data;
+            }
+        }
+        ```
+
+        </CodeGroup>
+    </Step>
+    <Step title="Register the Strategy">
+        Call `Magic::registerStrategy('my-custom-strategy', MyCustomStrategy::class)` in your `boot()` method in the service provider.
+
+        ```php
+        class AppServiceProvider extends ServiceProvider
+        {
+            public function register()
+            {
+                Magic::registerStrategy('my-custom-strategy', MyCustomStrategy::class);
+            }
+        }
+        ```
+    </Step>
+</Steps>
+
+Now your custom strategy is usable in the Data Wizard settings UI.
+
+import More from '/snippets/more.mdx';
+
+<More />

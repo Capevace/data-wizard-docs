@@ -1,0 +1,135 @@
+---
+title: 'Customer Feedback to JSON'
+description: 'Transform handwritten or printed customer feedback forms into structured JSON. Ideal for analyzing customer sentiment, identifying trends, and improving service quality.'
+---
+
+If you want to try this extractor, you can download it here:
+
+<Card icon="download" title="Download Customer Feedback Extractor" href="#" horizontal>
+    `customer-feedback-extractor.json`
+</Card>
+
+<Tip>
+[How do I import extractors?](/docs/import-export)
+</Tip>
+
+
+## Document Input Examples
+
+Here are some examples of the types of documents that this extractor can process.
+
+<CardGroup cols={2}>
+    <Card title="Customer Feedback Data (PDF or Spreadsheets)" icon="clipboard-user">
+        Perform some sentiment analysis on some data you already have. This extractor can help you extract feedback data from PDFs or spreadsheets.
+    </Card>
+
+    <Card title="Scanned Feedback Forms" icon="print">
+        Paper-based feedback forms collected in-person can be scanned and processed to digitize customer opinions and suggestions.
+    </Card>
+</CardGroup>
+
+## Example Output
+
+This extractor will produce JSON data that looks like the following:
+
+<CodeGroup>
+
+```json Customer Feedback Data
+{
+    "formType": "Customer Feedback",
+    "submissionDate": "2024-09-08",
+    "customerName": "Jane Doe",
+    "email": "jane.doe@example.com",
+    "feedbackText": "The service was excellent, and the staff were very friendly. I especially appreciated the quick response time to my inquiry.",
+    "rating": 5,
+    "suggestions": "Perhaps offer more variety in your product catalog."
+}
+```
+
+</CodeGroup>
+
+## Extractor
+
+Here's a template for a customer feedback form extractor with specific settings recommendations.
+
+### JSON Schema
+
+Here's a tailored JSON schema for customer feedback forms. It focuses on capturing key feedback elements such as customer details, ratings, and textual feedback.
+
+<Accordion title="Show Customer Feedback Schema">
+```json
+{
+  "type": "object",
+  "properties": {
+    "formType": {
+      "type": "string",
+      "description": "Type of the form (e.g., Customer Feedback Form)",
+      "default": "Customer Feedback Form"
+    },
+    "submissionDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Date the form was submitted"
+    },
+    "customerName": {
+      "type": "string",
+      "description": "Full name of the customer"
+    },
+    "email": {
+      "type": "string",
+      "format": "email",
+      "description": "Email address of the customer"
+    },
+    "feedbackText": {
+      "type": "string",
+      "description": "Textual feedback provided by the customer"
+    },
+    "rating": {
+      "type": "integer",
+      "description": "Customer satisfaction rating (e.g., 1-5 stars)",
+      "minimum": 1,
+      "maximum": 5
+    },
+    "suggestions": {
+      "type": "string",
+      "description": "Customer suggestions for improvement"
+    }
+  },
+  "required": [
+    "formType",
+    "submissionDate",
+    "feedbackText",
+    "rating"
+  ]
+}
+```
+</Accordion>
+
+### Extraction Strategy
+
+#### Strategy: `simple`
+For customer feedback forms, the `simple` strategy is generally sufficient. Feedback forms are typically short and focused, making them suitable for single-pass extraction.
+
+#### LLM Recommendation: `google/gemini-2.0-flash-lite`
+`google/gemini-2.0-flash-lite` provides a good balance of cost-effectiveness and performance for processing customer feedback forms. Its vision capabilities are beneficial if handling scanned forms with potentially varied handwriting.
+
+### Context Settings
+
+#### Chunk Size: `25k-50k`
+A chunk size of 25.000 to 50.000 tokens should comfortably accommodate most customer feedback forms.
+
+#### Include Text: `true`
+Essential for capturing the textual feedback, customer names, and other text-based fields.
+
+#### Include Embedded Images: `false`
+Embedded images are unlikely to be relevant in standard feedback forms and can be excluded.
+
+#### Include Page Screenshots: `true`
+Page screenshots are recommended, especially for scanned forms. They help the LLM understand the layout and context of different fields, improving accuracy in extracting data from potentially less structured forms.
+
+#### Mark Images with IDs: `false`
+Not needed for typical customer feedback extraction.
+
+import More from '/snippets/more.mdx'
+
+<More/>

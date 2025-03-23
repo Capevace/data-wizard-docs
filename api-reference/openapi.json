@@ -225,6 +225,7 @@
             "description": "The collection page number",
             "required": false,
             "deprecated": false,
+            "allowEmptyValue": true,
             "schema": {
               "type": "integer",
               "default": 1
@@ -656,7 +657,7 @@
             }
           }
         },
-        "summary": "Retrieves the collection of ExtractionRun resources.",
+        "summary": "List all runs",
         "description": "Retrieves the collection of ExtractionRun resources.",
         "parameters": [
           {
@@ -665,6 +666,7 @@
             "description": "The collection page number",
             "required": false,
             "deprecated": false,
+            "allowEmptyValue": true,
             "schema": {
               "type": "integer",
               "default": 1
@@ -804,7 +806,7 @@
             }
           }
         },
-        "summary": "Retrieves a ExtractionRun resource.",
+        "summary": "Get a single run",
         "description": "Retrieves a ExtractionRun resource.",
         "parameters": [
           {
@@ -1102,7 +1104,7 @@
             }
           }
         },
-        "summary": "Retrieves the collection of SavedExtractor resources.",
+        "summary": "List all extractors",
         "description": "Retrieves the collection of SavedExtractor resources.",
         "parameters": [
           {
@@ -1111,6 +1113,7 @@
             "description": "The collection page number",
             "required": false,
             "deprecated": false,
+            "allowEmptyValue": true,
             "schema": {
               "type": "integer",
               "default": 1
@@ -1197,7 +1200,7 @@
             }
           }
         },
-        "summary": "Creates a SavedExtractor resource.",
+        "summary": "Create a new extractor",
         "description": "Creates a SavedExtractor resource.",
         "parameters": [
           {
@@ -1303,7 +1306,7 @@
             }
           }
         },
-        "summary": "Retrieves a SavedExtractor resource.",
+        "summary": "Get a single extractor",
         "description": "Retrieves a SavedExtractor resource.",
         "parameters": [
           {
@@ -1361,7 +1364,7 @@
             }
           }
         },
-        "summary": "Removes the SavedExtractor resource.",
+        "summary": "Delete an extractor",
         "description": "Removes the SavedExtractor resource.",
         "parameters": [
           {

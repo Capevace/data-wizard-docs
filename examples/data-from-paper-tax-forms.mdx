@@ -1,0 +1,155 @@
+---
+title: 'Tax Forms to JSON'
+description: 'Convert data from paper-based tax forms into structured JSON for efficient tax processing, data entry, and compliance management.'
+---
+
+If you want to try this extractor, you can download it here:
+
+<Card icon="download" title="Download Tax Form Extractor" href="#" horizontal>
+    `tax-form-extractor.json`
+</Card>
+
+<Tip>
+[How do I import extractors?](/docs/import-export)
+</Tip>
+
+
+## Document Input Examples
+
+Here are some examples of the types of documents that this extractor can process.
+
+<CardGroup cols={2}>
+    <Card title="Tax Forms (PDF)" icon="file-pdf" img="../images/examples/income-tax.png">
+        Official tax forms in PDF format can be processed directly, extracting financial data and taxpayer information.
+    </Card>
+</CardGroup>
+
+## Example Output
+
+This extractor will produce JSON data that looks like the following:
+
+<CodeGroup>
+
+```json Tax Form Data
+{
+    "formType": "Tax Form 1040",
+    "taxYear": 2023,
+    "taxpayerID": "12-3456789",
+    "filingStatus": "Single",
+    "income": 75000.00,
+    "deductions": 12000.00,
+    "taxLiability": 15000.00,
+    "paymentDueDate": "2024-04-15"
+}
+```
+
+</CodeGroup>
+
+## Extractor
+
+Here's a template for a tax form extractor, optimized for extracting financial and identification information from tax documents.
+
+### JSON Schema
+
+Here's a JSON schema tailored for tax forms, focusing on common tax-related fields such as taxpayer identification, income, deductions, and tax liabilities.
+
+<Accordion title="Show Tax Form Schema">
+```json
+{
+  "type": "object",
+  "properties": {
+    "formType": {
+      "type": "string",
+      "description": "Type of tax form (e.g., 1040, W-2)",
+      "default": "Tax Form"
+    },
+    "taxYear": {
+      "type": "integer",
+      "description": "The tax year for which the form is filed"
+    },
+    "taxpayerID": {
+      "type": "string",
+      "description": "Taxpayer identification number (e.g., SSN, EIN)",
+      "pattern": "^[0-9\\-]+$"
+    },
+    "filingStatus": {
+      "type": "string",
+      "description": "Tax filing status (e.g., Single, Married Filing Jointly)",
+      "enum": [
+        "Single",
+        "Married Filing Jointly",
+        "Married Filing Separately",
+        "Head of Household",
+        "Qualifying Widow(er)"
+      ]
+    },
+    "income": {
+      "type": "number",
+      "description": "Total gross income",
+      "minimum": 0,
+      "multipleOf": 0.01
+    },
+    "deductions": {
+      "type": "number",
+      "description": "Total deductions claimed",
+      "minimum": 0,
+      "multipleOf": 0.01
+    },
+    "taxLiability": {
+      "type": "number",
+      "description": "Total tax liability",
+      "minimum": 0,
+      "multipleOf": 0.01
+    },
+    "paymentDueDate": {
+      "type": "string",
+      "format": "date",
+      "description": "Date the tax payment is due"
+    }
+  },
+  "required": [
+    "formType",
+    "taxYear",
+    "taxpayerID",
+    "income",
+    "taxLiability"
+  ]
+}
+```
+</Accordion>
+
+### Extraction Strategy
+
+#### Strategy: `simple`
+Given the structured nature of most tax forms and the importance of extracting precise data, the `simple` strategy is generally appropriate and efficient.
+
+<Warning>
+    Tax forms belong to the kind of data that requires further data validation, like calculating totals or verifying tax rates.
+    For these use cases, it can make sense to implement your own custom strategy that includes these additional validation steps.
+
+    [Find out how to create custom extraction strategies](../custom-strategies)
+</Warning>
+
+#### LLM Recommendation: `google/gemini-2.0-flash`
+`google/gemini-2.0-flash` (or `lite`) is again recommended due to its vision capabilities for handling scanned forms and its ability to process documents within a single context window, which is often sufficient for individual tax forms.
+
+### Context Settings
+
+#### Chunk Size: `50k-75k`
+Similar to feedback forms, a chunk size of 50.000 to 75.000 tokens should be adequate for most tax forms, allowing for complete processing in a single LLM call.
+
+#### Include Text: `true`
+Crucial for extracting all textual and numerical data from the tax form, including income figures, deductions, and identification numbers.
+
+#### Include Embedded Images: `false`
+Embedded images are not typically relevant in tax forms and can be excluded to optimize processing.
+
+#### Include Page Screenshots: `true`
+Page screenshots are highly recommended to provide the LLM with layout context, which is vital for accurate data extraction from tax forms, especially when dealing with scanned documents where field placement and visual cues are important.
+
+#### Mark Images with IDs: `false`
+Not necessary for standard tax form data extraction unless you are looking to specifically identify and reference elements like signatures or seals, which is less common in typical tax data processing.
+
+import More from '/snippets/more.mdx'
+
+<More/>
