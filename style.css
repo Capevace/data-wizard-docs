@@ -1,5 +1,11 @@
 /*Any image where the source ends with "images/data-wizard-logo.svg"*/
 
+@import url(https://fonts.bunny.net/css?family=asap:400,500,600,700);
+
 img[src$="images/data-wizard-logo.svg"] {
   height: 3.5rem;
+}
+
+:root {
+  --font-family-body-custom: 'Asap', sans-serif;
 }
