@@ -1,0 +1,107 @@
+---
+title: Integration using iFrames
+description: 'Embed Data Wizard into your web application using iFrames and interact with it programmatically using the JavaScript API.'
+---
+
+Data Wizard is designed for seamless integration into existing web applications. The simplest and most user-friendly way to embed Data Wizard functionality is by using **iFrames**.
+
+## iFrame Embedding: Quick and Easy Integration
+
+Embedding Data Wizard as an iFrame allows you to add data extraction capabilities to your web application with minimal development effort.
+
+**Steps to Embed Data Wizard using iFrames:**
+
+1.  **Generate a Pre-signed URL:** For the Extractor you want to embed, go to the Extractor settings in the Data Wizard backend and find the "Embed" tab. Click the "Generate Embed URL" button. This will create a pre-signed URL that includes security parameters to authorize access to the embedded Data Wizard instance.
+
+2.  **Copy the iFrame Code:** Data Wizard will provide you with an iFrame HTML code snippet. Copy this code snippet. It will look similar to this:
+
+    ```html
+    <iframe src="https://data-wizard.ai/embed/123456...?signature=..."></iframe>
+    ```
+
+    **Note:** The `src` attribute contains the pre-signed URL, which is unique for each Extractor and includes a security signature.
+
+3.  **Embed the iFrame in Your Application:**  Paste the copied iFrame code snippet into the HTML code of your web application page where you want to embed the Data Wizard UI.
+
+4.  **Customize iFrame (Optional):** You can customize the appearance of the embedded Data Wizard UI using standard iFrame attributes like `width`, `height`, `style`, `class`, etc. You can also customize the UI further using CSS by setting the `DATA_WIZARD_CSS_URL` environment variable in Data Wizard to point to your custom CSS file.
+
+**Example iFrame Embedding Code:**
+
+```html
+<div style="width:800px; height:600px;">
+  <iframe
+    src="https://data-wizard.ai/embed/123456...?signature=..."
+    width="100%"
+    height="100%"
+    frameborder="0"
+    style="border: 1px solid #ccc;"
+  ></iframe>
+</div>
+```
+
+## JavaScript API for iFrame Communication
+
+When embedding Data Wizard as an iFrame, a JavaScript API is available for communication between your host application and the embedded Data Wizard instance. This allows your application to:
+
+*   **Receive Real-time Updates:** Get notified about events during the data extraction process.
+*   **React to Events:** Trigger actions in your application based on Data Wizard events (e.g., hide the iFrame after extraction completion, display extracted data).
+
+**Listening for iFrame Events:**
+
+Use the `window.addEventListener('message', ...)` in your host application to listen for messages from the iFrame.
+
+**Example JavaScript Code to Receive iFrame Events:**
+
+```javascript
+const wizardFrame = document.getElementById('data-wizard-frame').contentWindow; // Replace 'data-wizard-frame' with your iFrame ID
+
+window.addEventListener('message', message => {
+  if (message.source !== wizardFrame) {
+    return; // Skip messages not from our iFrame
+  }
+
+  if (message.data.event === 'extraction.completed') {
+    // Extraction completed successfully
+    const extractedData = message.data.data;
+    console.log("Extracted Data:", extractedData);
+    wizardFrame.remove(); // Hide the iFrame
+    displayDataInApp(extractedData); // Function to display data in your application UI
+  } else if (message.data.event === 'extraction.error') {
+    // An error occurred during extraction
+    console.error("Extraction Error:", message.data.error);
+    // Handle error in your application UI
+  } else if (message.data.event === 'extraction.progress') {
+    // Real-time progress update
+    const progressData = message.data.data;
+    console.log("Extraction Progress:", progressData);
+    // Update progress indicator in your application UI
+  }  // ... handle other events as needed
+});
+```
+
+**Available iFrame Events:**
+
+*   `screen.changed`: User navigated to a different screen in the embedded extractor.
+*   `extraction.started`: Extraction process has begun.
+*   `extraction.progress`: Real-time updates during extraction (data chunks as they are extracted).
+*   `extraction.completed`: Extraction finished successfully. `message.data.data` contains the final extracted data in JSON format.
+*   `extraction.error`: An error occurred during extraction. `message.data.error` contains error details.
+*   `extraction.submitted`: User has submitted the final data after manual correction. `message.data.data` contains the final (potentially corrected) data.
+
+## Customizing the iFrame Theme
+
+You can customize the visual theme of the embedded iFrame to match your application's design.
+
+*   **Theme Query Parameter:** Append `?theme=light` or `?theme=dark` to the iFrame `src` URL to set the initial theme.
+*   **`set_theme` Message:**  Send a `set_theme` message to the iFrame using `wizardFrame.postMessage({ event: 'set_theme', theme: 'dark' }, '*')` to dynamically change the theme while the iFrame is open.
+
+## Security Considerations
+
+*   **Pre-signed URLs:**  Data Wizard uses pre-signed URLs to ensure secure access to the embedded iFrame. These URLs are time-limited and signed with a security signature, preventing unauthorized access.
+*   **Custom CSS URL:**  When providing a custom CSS URL via `DATA_WIZARD_CSS_URL`, ensure the CSS file is hosted securely and only contains safe CSS rules to prevent potential security risks.
+
+iFrame embedding provides a straightforward way to integrate Data Wizard's data extraction capabilities into your web applications, offering both user-friendliness and programmatic control through the JavaScript API.
+
+import More from '/snippets/more.mdx';
+
+<More />

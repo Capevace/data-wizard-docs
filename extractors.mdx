@@ -1,0 +1,121 @@
+---
+title: Extractors
+description: 'Extractors are the core configuration objects in Data Wizard'
+---
+
+Extractors are the core configuration units in Data Wizard. They define *what* data you want to extract and *how* Data Wizard should extract it from your documents. Each extractor encapsulates all the settings required for a specific data extraction task, making them reusable and manageable.
+
+*   **What data to extract:** Using JSON Schema.
+*   **How to extract the data:** Using a Strategy.
+*   **Which LLM to use:** Using a `<provider>/<model>` string.
+*   **Integration settings (webhooks, UI customizations).**
+
+## Creating a New Extractor
+
+You can create and manage extractors through the Data Wizard backend interface, accessible via your web browser after installation.
+
+1.  **Navigate to the "Extractors" Section:** In the Data Wizard backend, click on the "Extractors" menu item in the navigation sidebar.
+
+2.  **Create a New Extractor:** Click the "+ New Extractor" button to start creating a new extractor. This will open a wizard-like interface to guide you through the process.
+
+### Extractor Creation Wizard
+
+The extractor creation wizard simplifies the setup process. It uses AI assistance to help you define your data extraction task.
+
+1.  **Describe What You Are Extracting:** In the first step of the wizard, you'll be asked "What are you extracting?". Here, you describe in plain language the data you want to extract. For example:
+
+    *   "A list of discounted products from supermarket brochures, including the product name, original price, and discounted price."
+    *   "Vehicle data from car advertisements, including make, model, year of manufacture, kilometers, and price."
+    *   "Real estate data from listings, such as address, size, number of rooms, and rent price."
+
+2.  **Choose a Preset (Optional):** Data Wizard offers presets for common extraction tasks like "Product data from brochures" or "Real estate data from listings". These presets provide a starting point and automatically generate a basic JSON Schema. You can choose a preset if it aligns with your task, or start from scratch without a preset.
+
+3.  **AI-Powered JSON Schema Generation:** Based on your description, Data Wizard uses an LLM to automatically generate a draft **JSON Schema**. This schema defines the structure of the data you want to extract.  You will see a preliminary JSON Schema in the next step.
+
+4.  **Refine the JSON Schema:** Review the generated JSON Schema. You can:
+
+    *   **Edit the Schema:**  Modify the schema directly in the UI. You can adjust property names, data types (`string`, `number`, `array`, `object`), and add validation rules.
+    *   **Add Descriptions:** Add `description` properties to schema fields to provide more context to the LLM during extraction. This can improve extraction accuracy.
+    *   **Customize UI Hints (Optional):** Use non-standard properties like `magic_ui: "table"` to customize how the extracted data is displayed in the user interface (e.g., as a table or a form).
+
+    **Example JSON Schema (Products from Supermarket Brochures):**
+
+    ```json
+    {
+      "type": "object",
+      "required": ["products"],
+      "properties": {
+        "products": {
+          "type": "array",
+          "magic_ui": "table",
+          "items": {
+            "type": "object",
+            "required": ["name", "original_price"],
+            "properties": {
+              "name": {
+                "type": "string",
+                "maxLength": 255,
+                "description": "The name of the product."
+              },
+              "original_price": {
+                "type": "number",
+                "minimum": 0,
+                "multipleOf": 0.01,
+                "description": "The original price of the product."
+              },
+              "discounted_price": {
+                "type": ["number", "null"],
+                "minimum": 0,
+                "multipleOf": 0.01,
+                "description": "The discounted price for all customers. Prices only applying to customers with a membership card should not be included here."
+              }
+            }
+          }
+        }
+      }
+    }
+    ```
+
+5.  **Configure LLM Output Instructions:** In the "LLM Output Instructions" field, provide specific instructions to the LLM to guide the extraction process. Examples include:
+
+    *   "Write all product names in German language."
+    *   "Make sure to only include discounted prices that are available to all customers. Ignore prices that require a membership card."
+    *   "If a product is not discounted, omit the `discounted_price` property by setting it to `null`."
+
+6.  **Select LLM Strategy and Model:** Choose an appropriate **Strategy** (e.g., "Parallel (Auto Merge)") and an **LLM Model** from the dropdown lists. The choice of strategy and model significantly impacts performance, cost, and accuracy. Refer to the "Strategies" and "Configure your LLM Provider" sections for more details.
+
+7.  **Context Options (Advanced):**  The "Context Options" tab allows you to fine-tune how document content is processed and fed to the LLM. You can adjust:
+    *   **Chunk Size:** Control the size of document chunks sent to the LLM in tokens.
+    *   **Image Inclusion:** Decide whether to include embedded images, page screenshots, or marked page screenshots in the LLM context.
+
+8.  **Integration Settings:** The remaining tabs allow you to configure:
+    *   **Webhook URL:** Set up a webhook to receive extracted data automatically after extraction.
+    *   **UI Customization:** Customize the texts and labels displayed in the embedded UI.
+
+9.  **Save Extractor:** Once you are satisfied with the configuration, click "Save changes" to save your new extractor.
+
+## Editing and Managing Extractors
+
+After creating an extractor, you can:
+
+*   **Edit Extractor:** Modify the extractor's settings at any time by clicking the "Edit" button next to the extractor in the list.
+*   **Delete Extractor:** Delete an extractor if it's no longer needed.
+*   **Start Extraction:** Initiate a new data extraction run using a specific extractor by clicking the "Start extraction" button.
+*   **View Runs:** Review past extraction runs associated with an extractor to analyze results and debug issues.
+
+Extractors provide a powerful and flexible way to define and manage your data extraction workflows in Data Wizard. By carefully configuring your extractors, you can tailor Data Wizard to extract the precise data you need from various document types.
+
+## Output Instructions
+
+While just providing the JSON schema is often enough for most use-cases, sometimes a longer, more elaborate description is needed to help the LLM further.
+You can provide even more instructions as part of the system prompt, so everything you include here has a high impact on the extraction.
+
+## Context Options
+
+*  **Chunk Size** - The length of the document chunks in tokens
+*  **Include embedded images** - Whether to include images that were found inside the documents in the prompt
+*  **Include page images** - Whether to include screenshots of the document pages in the prompt
+
+import More from '/snippets/more.mdx';
+
+<More />

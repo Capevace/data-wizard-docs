@@ -1,0 +1,34 @@
+---
+title: Deployment
+description: Learn more about deploying Data Wizard.
+---
+
+## Updating Data Wizard
+
+When updating Data Wizard, you can pull the latest Docker image and restart the container. Make sure to back up your data before updating to prevent data loss.
+
+```bash
+docker pull mateffy/data-wizard:latest
+docker stop data-wizard
+docker rm data-wizard
+docker run ... (same run command as before)
+```
+
+You may need to change `data-wizard` to your docker container name if you have changed it or are using a random name.
+
+## Migrating the Database
+
+You may need to migrate the database when updating to a new version of Data Wizard. To do this, run the following command:
+
+```bash
+docker exec -it data-wizard php artisan migrate
+```
+
+With container ID:
+```bash
+docker exec -it <container-id> php artisan migrate
+```
+
+import More from '/snippets/more.mdx';
+
+<More />

@@ -1,0 +1,5 @@
+/*Any image where the source is "./images/data-wizard-logo.svg"*/
+
+img[src="./images/data-wizard-logo.svg"] {
+  height: 3.5rem;
+}

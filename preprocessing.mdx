@@ -1,0 +1,86 @@
+---
+title: Pre-Processing Files
+---
+
+Data Wizard's data processing pipeline transforms unstructured documents into structured JSON data ready for use in your applications.
+This allows it to accept files in various formats without having to worry about the intricacies of each format.
+
+## Artifact Creation
+
+The data processing begins when you upload files to Data Wizard, either through the embedded UI or programmatically via the API. Data Wizard supports various document formats, including:
+
+*   PDF (.pdf)
+*   Word Documents (.docx)
+*   Excel Spreadsheets (.xlsx, .xls)
+*   Images (.jpeg, .png, etc.)
+
+Upon upload, Data Wizard performs initial pre-processing to create **Artifacts**. An Artifact is a unified representation of the document's content, abstracting away the complexities of different file formats.
+
+## Artifact Structure
+
+Each Artifact is essentially a directory (can be just virtual in memory) containing:
+
+*   `metadata.json`: Metadata about the source file.
+*   `contents.json`:  A JSON file holding the structured content of the document, broken down into **Slices**.
+*   `source.<extension>`: The original uploaded file.
+*   `[marked.pdf]` (for PDFs): A marked version of the PDF with embedded images highlighted.
+*   `images/`: Directory containing embedded images extracted from the document.
+*   `images_marked/`: Directory containing marked versions of embedded images.
+*   `pages/`: Directory containing screenshots of each page of the document.
+*   `pages_marked/`: Directory containing marked screenshots of each page with highlighted embedded images.
+
+## `contents.json` Structure
+
+The `contents.json` file is crucial. It structures the document content into **Slices**. A Slice represents a logical part of the document, such as:
+
+*   `text`: Textual content, like paragraphs.
+*   `image`: Embedded images.
+*   `page-image`: Screenshots of entire pages.
+*   `page-image-marked`: Marked page screenshots with highlighted embedded images.
+
+Each Slice in `contents.json` includes:
+
+*   `page`: The page number the slice belongs to.
+*   `type`: The slice type (`text`, `image`, etc.).
+*   `text` (for text slices): The text content.
+*   `path` (for image slices):  Path to the image file within the Artifact directory.
+*   `mimetype` (for image slices): Image MIME type.
+*   `x, y, width, height` (for image slices): Image dimensions and position on the page (if available).
+
+## Example `contents.json` structure
+
+```json
+[
+  {
+    "page": 1,
+    "type": "text",
+    "text": "This is the text on the first page of the document. Lorem ipsum dolor sit amet..."
+  },
+  {
+    "page": 1,
+    "type": "image",
+    "mimetype": "image/jpeg",
+    "path": "images/image1.jpg",
+    "x": 455.0,
+    "y": 28.55999755859375,
+    "width": 88.32000732421875,
+    "height": 688.3200073242188
+  },
+  {
+    "page": 1,
+    "type": "page-image",
+    "mimetype": "image/jpeg",
+    "path": "pages/page1.jpg"
+  },
+  {
+    "page": 1,
+    "type": "page-image-marked",
+    "mimetype": "image/jpeg",
+    "path": "pages_marked/page1.jpg"
+  }
+]
+```
+
+import More from '/snippets/more.mdx';
+
+<More />
