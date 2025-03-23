@@ -52,12 +52,9 @@ Each strategy can be configured with a set of options:
 
 ## Custom Strategies
 
-You can create custom extraction strategies to tailor Data Wizard to specific document types or complex extraction tasks. Implement these steps:
-1. Create a class that extends the `\Mateffy\Magic\Extraction\Strategies\Extractor` or implements the `Mateffy\Magic\Extraction\Strategies\Strategy` interface
-2. Implement your strategy in the `run()` method, which takes the artifacts as an array
-4. Call `Magic::registerStrategy('my-custom-strategy', MyCustomStrategy::class)` in your `boot()` method in the service provider
-
-Now your custom strategy is usable in the Data Wizard settings UI.
+<Card title="Learn how to build custom strategies for more control" icon="gear" iconSize={200} horizontal href="./custom-strategies">
+    You can create custom strategies to tailor the extraction process to your specific needs. Custom strategies allow you to define how the document is processed, how the LLM is interacted with, and how the results are merged.
+</Card>
 
 import More from '/snippets/more.mdx';
 
