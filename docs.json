@@ -1,122 +1,119 @@
 {
-  "$schema": "https://mintlify.com/docs.json",
-  "theme": "palm",
-  "name": "Data Wizard – AI Powered Data Extraction",
-  "colors": {
-    "primary": "#47819E",
-    "light": "#5D99B6",
-    "dark": "#47819E"
-  },
-  "favicon": "images/favicon.png",
-  "navigation": {
-    "tabs": [
-      {
-        "tab": "Documentation",
-        "groups": [
-          {
-            "group": "Get Started",
-            "pages": [
-              "introduction",
-              "quick-start",
-              "extracting-data"
-            ]
-          },
-          {
-            "group": "In-Depth",
-            "pages": [
-              "extractors",
-              "preprocessing",
-              "strategies",
-              "configure-llm",
-              "deployment",
-              "custom-strategies"
-            ]
-          },
-          {
-            "group": "Integration into External Apps",
-            "pages": [
-              "integrate",
-              "apis"
-            ]
-          },
-          {
-            "group": "Examples",
-            "pages": [
-              "examples/paper-invoice-to-structured-data",
-              "examples/products-from-brochures",
-              "examples/customer-feedback-to-data",
-              "examples/data-from-paper-tax-forms",
-              "examples/real-estate-properties-from-exposes"
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "API Reference",
-        "openapi": {
-          "source": "api-reference/openapi.json",
-          "directory": "api-reference"
-        }
-      }
-    ],
-    "global": {
-      "anchors": [
-        {
-          "anchor": "Go to Dashboard",
-          "href": "https://data-wizard.ai",
-          "icon": "display"
-        },
-        {
-          "anchor": "GitHub",
-          "href": "https://github.com/capevace/data-wizard",
-          "icon": "github"
-        },
-        {
-          "anchor": "Thesis",
-          "href": "https://github.com/Capevace/bachelor-thesis-submission/blob/adb1b0e7871f530efff45e5e5a3a17bf16d19009/Thesis.pdf",
-          "icon": "graduation-cap"
-        },
-        {
-          "anchor": "Made by Lukas Mateffy",
-          "href": "https://mateffy.me",
-          "icon": "user-ninja"
-        }
-      ]
-    }
-  },
-  "logo": {
-    "light": "images/data-wizard-logo.svg",
-    "dark": "images/data-wizard-logo.svg"
-  },
-  "navbar": {
-    "links": [
-      {
-        "label": "GitHub",
-        "href": "https://github.com/capevace/data-wizard"
-      },
-      {
-        "label": "Homepage",
-        "href": "https://data-wizard.ai"
-      },
-      {
-        "label": "Support",
-        "href": "mailto:hi@mintlify.com"
-      }
-    ],
-    "primary": {
-      "type": "button",
-      "label": "Open Data Wizard",
-      "href": "https://data-wizard.ai/app"
-    }
-  },
-  "footer": {
-    "socials": {
-      "github": "https://github.com/capevace",
-      "hacker-news": "https://news.ycombinator.com/user?id=capevace",
-      "x": "https://x.com/capevace",
-      "bluesky": "https://bsky.app/profile/mateffy.me",
-      "website": "https://mateffy.me",
-      "linkedin": "https://www.linkedin.com/in/lukas-mateffy/"
-    }
-  }
+	"$schema": "https://mintlify.com/docs.json",
+	"theme": "palm",
+	"name": "Data Wizard – AI Powered Data Extraction",
+	"colors": {
+		"primary": "#47819E",
+		"light": "#5D99B6",
+		"dark": "#47819E"
+	},
+	"favicon": "images/favicon.png",
+	"navigation": {
+		"tabs": [
+			{
+				"tab": "Documentation",
+				"groups": [
+					{
+						"group": "Get Started",
+						"pages": [
+							"introduction",
+							"quick-start",
+							"extracting-data"
+						]
+					},
+					{
+						"group": "In-Depth",
+						"pages": [
+							"extractors",
+							"preprocessing",
+							"strategies",
+							"configure-llm",
+							"deployment",
+							"custom-strategies"
+						]
+					},
+					{
+						"group": "Integration into External Apps",
+						"pages": ["integrate", "apis"]
+					},
+					{
+						"group": "Examples",
+						"pages": [
+							"examples/paper-invoice-to-structured-data",
+							"examples/products-from-brochures",
+							"examples/customer-feedback-to-data",
+							"examples/data-from-paper-tax-forms",
+							"examples/real-estate-properties-from-exposes"
+						]
+					}
+				]
+			},
+			{
+				"tab": "API Reference",
+				"openapi": {
+					"source": "api-reference/openapi.json",
+					"directory": "api-reference"
+				}
+			}
+		],
+		"global": {
+			"anchors": [
+				{
+					"anchor": "Go to Dashboard",
+					"href": "https://data-wizard.ai",
+					"icon": "display"
+				},
+				{
+					"anchor": "GitHub",
+					"href": "https://github.com/capevace/data-wizard",
+					"icon": "github"
+				},
+				{
+					"anchor": "Thesis",
+					"href": "https://github.com/Capevace/bachelor-thesis-submission/blob/adb1b0e7871f530efff45e5e5a3a17bf16d19009/Thesis.pdf",
+					"icon": "graduation-cap"
+				},
+				{
+					"anchor": "Made by Lukas Mateffy",
+					"href": "https://mateffy.me",
+					"icon": "user-ninja"
+				}
+			]
+		}
+	},
+	"logo": {
+		"light": "images/data-wizard-logo.svg",
+		"dark": "images/data-wizard-logo.svg"
+	},
+	"navbar": {
+		"links": [
+			{
+				"label": "GitHub",
+				"href": "https://github.com/capevace/data-wizard"
+			},
+			{
+				"label": "Homepage",
+				"href": "https://data-wizard.ai"
+			},
+			{
+				"label": "Contact",
+				"href": "https://mateffy.me"
+			}
+		],
+		"primary": {
+			"type": "button",
+			"label": "Open Data Wizard",
+			"href": "https://data-wizard.ai/app"
+		}
+	},
+	"footer": {
+		"socials": {
+			"github": "https://github.com/capevace",
+			"hacker-news": "https://news.ycombinator.com/user?id=capevace",
+			"x": "https://x.com/capevace",
+			"bluesky": "https://bsky.app/profile/mateffy.me",
+			"website": "https://mateffy.me",
+			"linkedin": "https://www.linkedin.com/in/lukas-mateffy/"
+		}
+	}
 }
