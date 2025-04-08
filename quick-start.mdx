@@ -7,13 +7,23 @@ description: 'Data Wizard is designed to be easy to install and deploy in variou
 
 <Steps>
     <Step title="Generate a random `APP_KEY`">
-        Before running the Docker container, you need to generate a random `APP_KEY` for your Data Wizard instance. This key is used for encryption and security purposes.
+        Before running the Docker container, you need to generate a random `APP_KEY` for your Data Wizard instance. This key is used for encryption and security purposes. Please note the `base64:` prefix.
 
         Run the following command to generate a random `APP_KEY`:
         ```bash
         openssl rand -base64 32
         ```
+
+        **Make sure to use the `-base64` flag.**
+
+        When using your generated key later, make sure to also prefix it with `base64:` like this:
+
+        ```bash
+        APP_KEY=base64:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=
+        ```
+
         <br /><br />
+
     </Step>
     <Step title="Run the Docker Container">
         <Tabs>
@@ -29,7 +39,7 @@ description: 'Data Wizard is designed to be easy to install and deploy in variou
                   -v data_wizard_sqlite_data:/app/database \
                   -v data_wizard_caddy_data:/data \
                   -v data_wizard_caddy_config:/config \
-                  -e APP_KEY=[REPLACE_WITH_APP_KEY] \
+                  -e APP_KEY=base64:[REPLACE_WITH_KEY] \
                   mateffy/data-wizard:latest
                 ```
 
@@ -57,7 +67,7 @@ description: 'Data Wizard is designed to be easy to install and deploy in variou
                       - data_wizard_caddy_data:/data
                       - data_wizard_caddy_config:/config
                     environment:
-                      - APP_KEY=[REPLACE_WITH_APP_KEY]
+                      - APP_KEY=base64:[REPLACE_WITH_KEY]
 
                     volumes:
                       data_wizard_storage:
@@ -109,4 +119,3 @@ description: 'Data Wizard is designed to be easy to install and deploy in variou
 import More from '/snippets/more.mdx';
 
 <More />
-
