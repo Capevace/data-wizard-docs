@@ -1,3553 +1,2818 @@
 {
-  "openapi": "3.1.0",
-  "info": {
-    "title": "DataWizard.ai API",
-    "description": "API access to DataWizard data extraction",
-    "contact": {
-      "name": "Lukas Mateffy",
-      "url": "https://mateffy.me",
-      "email": "hey@mateffy.me"
-    },
-    "license": {
-      "name": "",
-      "url": ""
-    },
-    "version": "1.0.0"
-  },
-  "servers": [
-    {
-      "url": "/",
-      "description": ""
-    }
-  ],
-  "paths": {
-    "/api/buckets": {
-      "get": {
-        "operationId": "api_apibuckets_get_collection",
-        "tags": [
-          "ExtractionBucket"
-        ],
-        "responses": {
-          "200": {
-            "description": "ExtractionBucket collection",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ExtractionBucket"
-                  }
-                }
-              },
-              "application/vnd.api+json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "links": {
-                      "type": "object",
-                      "properties": {
-                        "self": {
-                          "type": "string",
-                          "format": "iri-reference"
-                        },
-                        "first": {
-                          "type": "string",
-                          "format": "iri-reference"
-                        },
-                        "prev": {
-                          "type": "string",
-                          "format": "iri-reference"
-                        },
-                        "next": {
-                          "type": "string",
-                          "format": "iri-reference"
-                        },
-                        "last": {
-                          "type": "string",
-                          "format": "iri-reference"
-                        }
-                      },
-                      "example": {
-                        "self": "string",
-                        "first": "string",
-                        "prev": "string",
-                        "next": "string",
-                        "last": "string"
-                      }
-                    },
-                    "meta": {
-                      "type": "object",
-                      "properties": {
-                        "totalItems": {
-                          "type": "integer",
-                          "minimum": 0
-                        },
-                        "itemsPerPage": {
-                          "type": "integer",
-                          "minimum": 0
-                        },
-                        "currentPage": {
-                          "type": "integer",
-                          "minimum": 0
-                        }
-                      }
-                    },
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/ExtractionBucket.jsonapi"
-                      }
-                    }
-                  },
-                  "required": [
-                    "data"
-                  ]
-                }
-              },
-              "application/ld+json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "member": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/ExtractionBucket.jsonld"
-                      }
-                    },
-                    "totalItems": {
-                      "type": "integer",
-                      "minimum": 0
-                    },
-                    "view": {
-                      "type": "object",
-                      "properties": {
-                        "@id": {
-                          "type": "string",
-                          "format": "iri-reference"
-                        },
-                        "@type": {
-                          "type": "string"
-                        },
-                        "first": {
-                          "type": "string",
-                          "format": "iri-reference"
-                        },
-                        "last": {
-                          "type": "string",
-                          "format": "iri-reference"
-                        },
-                        "previous": {
-                          "type": "string",
-                          "format": "iri-reference"
-                        },
-                        "next": {
-                          "type": "string",
-                          "format": "iri-reference"
-                        }
-                      },
-                      "example": {
-                        "@id": "string",
-                        "type": "string",
-                        "first": "string",
-                        "last": "string",
-                        "previous": "string",
-                        "next": "string"
-                      }
-                    },
-                    "search": {
-                      "type": "object",
-                      "properties": {
-                        "@type": {
-                          "type": "string"
-                        },
-                        "template": {
-                          "type": "string"
-                        },
-                        "variableRepresentation": {
-                          "type": "string"
-                        },
-                        "mapping": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "@type": {
-                                "type": "string"
-                              },
-                              "variable": {
-                                "type": "string"
-                              },
-                              "property": {
-                                "type": [
-                                  "string",
-                                  "null"
-                                ]
-                              },
-                              "required": {
-                                "type": "boolean"
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  },
-                  "required": [
-                    "member"
-                  ]
-                }
-              },
-              "text/csv": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ExtractionBucket.csv"
-                  }
-                }
-              },
-              "text/html": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ExtractionBucket"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "summary": "List all buckets",
-        "description": "Retrieves the collection of ExtractionBucket resources.",
-        "parameters": [
-          {
-            "name": "page",
-            "in": "query",
-            "description": "The collection page number",
-            "required": false,
-            "deprecated": false,
-            "allowEmptyValue": true,
-            "schema": {
-              "type": "integer",
-              "default": 1
-            },
-            "style": "form",
-            "explode": false
-          },
-          {
-            "name": "model",
-            "in": "query",
-            "description": "ExtractionBucket model",
-            "required": false,
-            "deprecated": false,
-            "schema": {
-              "type": "string"
-            },
-            "style": "form",
-            "explode": false
-          },
-          {
-            "name": "output_instructions",
-            "in": "query",
-            "description": "ExtractionBucket output_instructions",
-            "required": false,
-            "deprecated": false,
-            "schema": {
-              "type": "string"
-            },
-            "style": "form",
-            "explode": false
-          }
-        ],
-        "deprecated": false
-      },
-      "post": {
-        "operationId": "api_apibuckets_post",
-        "tags": [
-          "ExtractionBucket"
-        ],
-        "responses": {
-          "201": {
-            "description": "ExtractionBucket resource created",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ExtractionBucket"
-                }
-              },
-              "application/vnd.api+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ExtractionBucket.jsonapi"
-                }
-              },
-              "application/ld+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ExtractionBucket.jsonld"
-                }
-              },
-              "text/csv": {
-                "schema": {
-                  "$ref": "#/components/schemas/ExtractionBucket.csv"
-                }
-              },
-              "text/html": {
-                "schema": {
-                  "$ref": "#/components/schemas/ExtractionBucket"
-                }
-              }
-            },
-            "links": {
-
-            }
-          },
-          "400": {
-            "description": "Invalid input",
-            "links": {
-
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "links": {
-
-            }
-          }
-        },
-        "summary": "Create a new bucket",
-        "description": "Creates a ExtractionBucket resource.",
-        "parameters": [
-          {
-            "name": "model",
-            "in": "query",
-            "description": "ExtractionBucket model",
-            "required": false,
-            "deprecated": false,
-            "schema": {
-              "type": "string"
-            },
-            "style": "form",
-            "explode": false
-          },
-          {
-            "name": "output_instructions",
-            "in": "query",
-            "description": "ExtractionBucket output_instructions",
-            "required": false,
-            "deprecated": false,
-            "schema": {
-              "type": "string"
-            },
-            "style": "form",
-            "explode": false
-          }
-        ],
-        "requestBody": {
-          "description": "The new ExtractionBucket resource",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ExtractionBucket"
-              }
-            },
-            "application/vnd.api+json": {
-              "schema": {
-                "$ref": "#/components/schemas/ExtractionBucket.jsonapi"
-              }
-            },
-            "application/ld+json": {
-              "schema": {
-                "$ref": "#/components/schemas/ExtractionBucket.jsonld"
-              }
-            },
-            "text/csv": {
-              "schema": {
-                "$ref": "#/components/schemas/ExtractionBucket.csv"
-              }
-            },
-            "text/html": {
-              "schema": {
-                "$ref": "#/components/schemas/ExtractionBucket"
-              }
-            }
-          },
-          "required": true
-        },
-        "deprecated": false
-      }
-    },
-    "/api/buckets/{id}": {
-      "get": {
-        "operationId": "api_apibuckets_id_get",
-        "tags": [
-          "ExtractionBucket"
-        ],
-        "responses": {
-          "200": {
-            "description": "ExtractionBucket resource",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ExtractionBucket"
-                }
-              },
-              "application/vnd.api+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ExtractionBucket.jsonapi"
-                }
-              },
-              "application/ld+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ExtractionBucket.jsonld"
-                }
-              },
-              "text/csv": {
-                "schema": {
-                  "$ref": "#/components/schemas/ExtractionBucket.csv"
-                }
-              },
-              "text/html": {
-                "schema": {
-                  "$ref": "#/components/schemas/ExtractionBucket"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not found",
-            "links": {
-
-            }
-          }
-        },
-        "summary": "Get a single bucket",
-        "description": "Retrieves a ExtractionBucket resource.",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "ExtractionBucket identifier",
-            "required": true,
-            "deprecated": false,
-            "schema": {
-              "type": "string"
-            },
-            "style": "simple",
-            "explode": false
-          },
-          {
-            "name": "model",
-            "in": "query",
-            "description": "ExtractionBucket model",
-            "required": false,
-            "deprecated": false,
-            "schema": {
-              "type": "string"
-            },
-            "style": "form",
-            "explode": false
-          },
-          {
-            "name": "output_instructions",
-            "in": "query",
-            "description": "ExtractionBucket output_instructions",
-            "required": false,
-            "deprecated": false,
-            "schema": {
-              "type": "string"
-            },
-            "style": "form",
-            "explode": false
-          }
-        ],
-        "deprecated": false
-      },
-      "delete": {
-        "operationId": "api_apibuckets_id_delete",
-        "tags": [
-          "ExtractionBucket"
-        ],
-        "responses": {
-          "204": {
-            "description": "ExtractionBucket resource deleted"
-          },
-          "404": {
-            "description": "Not found",
-            "links": {
-
-            }
-          }
-        },
-        "summary": "Delete a bucket",
-        "description": "Removes the ExtractionBucket resource.",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "ExtractionBucket identifier",
-            "required": true,
-            "deprecated": false,
-            "schema": {
-              "type": "string"
-            },
-            "style": "simple",
-            "explode": false
-          },
-          {
-            "name": "model",
-            "in": "query",
-            "description": "ExtractionBucket model",
-            "required": false,
-            "deprecated": false,
-            "schema": {
-              "type": "string"
-            },
-            "style": "form",
-            "explode": false
-          },
-          {
-            "name": "output_instructions",
-            "in": "query",
-            "description": "ExtractionBucket output_instructions",
-            "required": false,
-            "deprecated": false,
-            "schema": {
-              "type": "string"
-            },
-            "style": "form",
-            "explode": false
-          }
-        ],
-        "deprecated": false
-      }
-    },
-    "/api/runs": {
-      "get": {
-        "operationId": "api_apiruns_get_collection",
-        "tags": [
-          "ExtractionRun"
-        ],
-        "responses": {
-          "200": {
-            "description": "ExtractionRun collection",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ExtractionRun"
-                  }
-                }
-              },
-              "application/vnd.api+json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ExtractionRun.jsonapi"
-                  }
-                }
-              },
-              "application/ld+json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "member": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/ExtractionRun.jsonld"
-                      }
-                    },
-                    "totalItems": {
-                      "type": "integer",
-                      "minimum": 0
-                    },
-                    "view": {
-                      "type": "object",
-                      "properties": {
-                        "@id": {
-                          "type": "string",
-                          "format": "iri-reference"
-                        },
-                        "@type": {
-                          "type": "string"
-                        },
-                        "first": {
-                          "type": "string",
-                          "format": "iri-reference"
-                        },
-                        "last": {
-                          "type": "string",
-                          "format": "iri-reference"
-                        },
-                        "previous": {
-                          "type": "string",
-                          "format": "iri-reference"
-                        },
-                        "next": {
-                          "type": "string",
-                          "format": "iri-reference"
-                        }
-                      },
-                      "example": {
-                        "@id": "string",
-                        "type": "string",
-                        "first": "string",
-                        "last": "string",
-                        "previous": "string",
-                        "next": "string"
-                      }
-                    },
-                    "search": {
-                      "type": "object",
-                      "properties": {
-                        "@type": {
-                          "type": "string"
-                        },
-                        "template": {
-                          "type": "string"
-                        },
-                        "variableRepresentation": {
-                          "type": "string"
-                        },
-                        "mapping": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "@type": {
-                                "type": "string"
-                              },
-                              "variable": {
-                                "type": "string"
-                              },
-                              "property": {
-                                "type": [
-                                  "string",
-                                  "null"
-                                ]
-                              },
-                              "required": {
-                                "type": "boolean"
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  },
-                  "required": [
-                    "member"
-                  ]
-                }
-              },
-              "text/csv": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ExtractionRun.csv"
-                  }
-                }
-              },
-              "text/html": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ExtractionRun"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "summary": "List all runs",
-        "description": "Retrieves the collection of ExtractionRun resources.",
-        "parameters": [
-          {
-            "name": "page",
-            "in": "query",
-            "description": "The collection page number",
-            "required": false,
-            "deprecated": false,
-            "allowEmptyValue": true,
-            "schema": {
-              "type": "integer",
-              "default": 1
-            },
-            "style": "form",
-            "explode": false
-          },
-          {
-            "name": "result_json",
-            "in": "query",
-            "description": "ExtractionRun result_json",
-            "required": false,
-            "deprecated": false,
-            "schema": {
-              "type": "string"
-            },
-            "style": "form",
-            "explode": false
-          },
-          {
-            "name": "partial_result_json",
-            "in": "query",
-            "description": "ExtractionRun partial_result_json",
-            "required": false,
-            "deprecated": false,
-            "schema": {
-              "type": "string"
-            },
-            "style": "form",
-            "explode": false
-          },
-          {
-            "name": "error",
-            "in": "query",
-            "description": "ExtractionRun error",
-            "required": false,
-            "deprecated": false,
-            "schema": {
-              "type": "string"
-            },
-            "style": "form",
-            "explode": false
-          },
-          {
-            "name": "model",
-            "in": "query",
-            "description": "ExtractionRun model",
-            "required": false,
-            "deprecated": false,
-            "schema": {
-              "type": "string"
-            },
-            "style": "form",
-            "explode": false
-          },
-          {
-            "name": "saved_extractor_id",
-            "in": "query",
-            "description": "ExtractionRun saved_extractor_id",
-            "required": false,
-            "deprecated": false,
-            "schema": {
-              "type": "string"
-            },
-            "style": "form",
-            "explode": false
-          },
-          {
-            "name": "strategy",
-            "in": "query",
-            "description": "ExtractionRun strategy",
-            "required": false,
-            "deprecated": false,
-            "schema": {
-              "type": "string"
-            },
-            "style": "form",
-            "explode": false
-          },
-          {
-            "name": "status",
-            "in": "query",
-            "description": "ExtractionRun status",
-            "required": false,
-            "deprecated": false,
-            "schema": {
-              "type": "string"
-            },
-            "style": "form",
-            "explode": false
-          }
-        ],
-        "deprecated": false
-      }
-    },
-    "/api/runs/{id}": {
-      "get": {
-        "operationId": "api_apiruns_id_get",
-        "tags": [
-          "ExtractionRun"
-        ],
-        "responses": {
-          "200": {
-            "description": "ExtractionRun resource",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ExtractionRun"
-                }
-              },
-              "application/vnd.api+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ExtractionRun.jsonapi"
-                }
-              },
-              "application/ld+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ExtractionRun.jsonld"
-                }
-              },
-              "text/csv": {
-                "schema": {
-                  "$ref": "#/components/schemas/ExtractionRun.csv"
-                }
-              },
-              "text/html": {
-                "schema": {
-                  "$ref": "#/components/schemas/ExtractionRun"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not found",
-            "links": {
-
-            }
-          }
-        },
-        "summary": "Get a single run",
-        "description": "Retrieves a ExtractionRun resource.",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "ExtractionRun identifier",
-            "required": true,
-            "deprecated": false,
-            "schema": {
-              "type": "string"
-            },
-            "style": "simple",
-            "explode": false
-          },
-          {
-            "name": "result_json",
-            "in": "query",
-            "description": "ExtractionRun result_json",
-            "required": false,
-            "deprecated": false,
-            "schema": {
-              "type": "string"
-            },
-            "style": "form",
-            "explode": false
-          },
-          {
-            "name": "partial_result_json",
-            "in": "query",
-            "description": "ExtractionRun partial_result_json",
-            "required": false,
-            "deprecated": false,
-            "schema": {
-              "type": "string"
-            },
-            "style": "form",
-            "explode": false
-          },
-          {
-            "name": "error",
-            "in": "query",
-            "description": "ExtractionRun error",
-            "required": false,
-            "deprecated": false,
-            "schema": {
-              "type": "string"
-            },
-            "style": "form",
-            "explode": false
-          },
-          {
-            "name": "model",
-            "in": "query",
-            "description": "ExtractionRun model",
-            "required": false,
-            "deprecated": false,
-            "schema": {
-              "type": "string"
-            },
-            "style": "form",
-            "explode": false
-          },
-          {
-            "name": "saved_extractor_id",
-            "in": "query",
-            "description": "ExtractionRun saved_extractor_id",
-            "required": false,
-            "deprecated": false,
-            "schema": {
-              "type": "string"
-            },
-            "style": "form",
-            "explode": false
-          },
-          {
-            "name": "strategy",
-            "in": "query",
-            "description": "ExtractionRun strategy",
-            "required": false,
-            "deprecated": false,
-            "schema": {
-              "type": "string"
-            },
-            "style": "form",
-            "explode": false
-          },
-          {
-            "name": "status",
-            "in": "query",
-            "description": "ExtractionRun status",
-            "required": false,
-            "deprecated": false,
-            "schema": {
-              "type": "string"
-            },
-            "style": "form",
-            "explode": false
-          }
-        ],
-        "deprecated": false
-      }
-    },
-    "/api/extractors": {
-      "get": {
-        "operationId": "api_apiextractors_get_collection",
-        "tags": [
-          "SavedExtractor"
-        ],
-        "responses": {
-          "200": {
-            "description": "SavedExtractor collection",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/SavedExtractor"
-                  }
-                }
-              },
-              "application/vnd.api+json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "links": {
-                      "type": "object",
-                      "properties": {
-                        "self": {
-                          "type": "string",
-                          "format": "iri-reference"
-                        },
-                        "first": {
-                          "type": "string",
-                          "format": "iri-reference"
-                        },
-                        "prev": {
-                          "type": "string",
-                          "format": "iri-reference"
-                        },
-                        "next": {
-                          "type": "string",
-                          "format": "iri-reference"
-                        },
-                        "last": {
-                          "type": "string",
-                          "format": "iri-reference"
-                        }
-                      },
-                      "example": {
-                        "self": "string",
-                        "first": "string",
-                        "prev": "string",
-                        "next": "string",
-                        "last": "string"
-                      }
-                    },
-                    "meta": {
-                      "type": "object",
-                      "properties": {
-                        "totalItems": {
-                          "type": "integer",
-                          "minimum": 0
-                        },
-                        "itemsPerPage": {
-                          "type": "integer",
-                          "minimum": 0
-                        },
-                        "currentPage": {
-                          "type": "integer",
-                          "minimum": 0
-                        }
-                      }
-                    },
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/SavedExtractor.jsonapi"
-                      }
-                    }
-                  },
-                  "required": [
-                    "data"
-                  ]
-                }
-              },
-              "application/ld+json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "member": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/SavedExtractor.jsonld"
-                      }
-                    },
-                    "totalItems": {
-                      "type": "integer",
-                      "minimum": 0
-                    },
-                    "view": {
-                      "type": "object",
-                      "properties": {
-                        "@id": {
-                          "type": "string",
-                          "format": "iri-reference"
-                        },
-                        "@type": {
-                          "type": "string"
-                        },
-                        "first": {
-                          "type": "string",
-                          "format": "iri-reference"
-                        },
-                        "last": {
-                          "type": "string",
-                          "format": "iri-reference"
-                        },
-                        "previous": {
-                          "type": "string",
-                          "format": "iri-reference"
-                        },
-                        "next": {
-                          "type": "string",
-                          "format": "iri-reference"
-                        }
-                      },
-                      "example": {
-                        "@id": "string",
-                        "type": "string",
-                        "first": "string",
-                        "last": "string",
-                        "previous": "string",
-                        "next": "string"
-                      }
-                    },
-                    "search": {
-                      "type": "object",
-                      "properties": {
-                        "@type": {
-                          "type": "string"
-                        },
-                        "template": {
-                          "type": "string"
-                        },
-                        "variableRepresentation": {
-                          "type": "string"
-                        },
-                        "mapping": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "@type": {
-                                "type": "string"
-                              },
-                              "variable": {
-                                "type": "string"
-                              },
-                              "property": {
-                                "type": [
-                                  "string",
-                                  "null"
-                                ]
-                              },
-                              "required": {
-                                "type": "boolean"
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  },
-                  "required": [
-                    "member"
-                  ]
-                }
-              },
-              "text/csv": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/SavedExtractor.csv"
-                  }
-                }
-              },
-              "text/html": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/SavedExtractor"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "summary": "List all extractors",
-        "description": "Retrieves the collection of SavedExtractor resources.",
-        "parameters": [
-          {
-            "name": "page",
-            "in": "query",
-            "description": "The collection page number",
-            "required": false,
-            "deprecated": false,
-            "allowEmptyValue": true,
-            "schema": {
-              "type": "integer",
-              "default": 1
-            },
-            "style": "form",
-            "explode": false
-          },
-          {
-            "name": "model",
-            "in": "query",
-            "description": "SavedExtractor model",
-            "required": false,
-            "deprecated": false,
-            "schema": {
-              "type": "string"
-            },
-            "style": "form",
-            "explode": false
-          },
-          {
-            "name": "output_instructions",
-            "in": "query",
-            "description": "SavedExtractor output_instructions",
-            "required": false,
-            "deprecated": false,
-            "schema": {
-              "type": "string"
-            },
-            "style": "form",
-            "explode": false
-          }
-        ],
-        "deprecated": false
-      },
-      "post": {
-        "operationId": "api_apiextractors_post",
-        "tags": [
-          "SavedExtractor"
-        ],
-        "responses": {
-          "201": {
-            "description": "SavedExtractor resource created",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SavedExtractor"
-                }
-              },
-              "application/vnd.api+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SavedExtractor.jsonapi"
-                }
-              },
-              "application/ld+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SavedExtractor.jsonld"
-                }
-              },
-              "text/csv": {
-                "schema": {
-                  "$ref": "#/components/schemas/SavedExtractor.csv"
-                }
-              },
-              "text/html": {
-                "schema": {
-                  "$ref": "#/components/schemas/SavedExtractor"
-                }
-              }
-            },
-            "links": {
-
-            }
-          },
-          "400": {
-            "description": "Invalid input",
-            "links": {
-
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "links": {
-
-            }
-          }
-        },
-        "summary": "Create a new extractor",
-        "description": "Creates a SavedExtractor resource.",
-        "parameters": [
-          {
-            "name": "model",
-            "in": "query",
-            "description": "SavedExtractor model",
-            "required": false,
-            "deprecated": false,
-            "schema": {
-              "type": "string"
-            },
-            "style": "form",
-            "explode": false
-          },
-          {
-            "name": "output_instructions",
-            "in": "query",
-            "description": "SavedExtractor output_instructions",
-            "required": false,
-            "deprecated": false,
-            "schema": {
-              "type": "string"
-            },
-            "style": "form",
-            "explode": false
-          }
-        ],
-        "requestBody": {
-          "description": "The new SavedExtractor resource",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/SavedExtractor"
-              }
-            },
-            "application/vnd.api+json": {
-              "schema": {
-                "$ref": "#/components/schemas/SavedExtractor.jsonapi"
-              }
-            },
-            "application/ld+json": {
-              "schema": {
-                "$ref": "#/components/schemas/SavedExtractor.jsonld"
-              }
-            },
-            "text/csv": {
-              "schema": {
-                "$ref": "#/components/schemas/SavedExtractor.csv"
-              }
-            },
-            "text/html": {
-              "schema": {
-                "$ref": "#/components/schemas/SavedExtractor"
-              }
-            }
-          },
-          "required": true
-        },
-        "deprecated": false
-      }
-    },
-    "/api/extractors/{id}": {
-      "get": {
-        "operationId": "api_apiextractors_id_get",
-        "tags": [
-          "SavedExtractor"
-        ],
-        "responses": {
-          "200": {
-            "description": "SavedExtractor resource",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SavedExtractor"
-                }
-              },
-              "application/vnd.api+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SavedExtractor.jsonapi"
-                }
-              },
-              "application/ld+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SavedExtractor.jsonld"
-                }
-              },
-              "text/csv": {
-                "schema": {
-                  "$ref": "#/components/schemas/SavedExtractor.csv"
-                }
-              },
-              "text/html": {
-                "schema": {
-                  "$ref": "#/components/schemas/SavedExtractor"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not found",
-            "links": {
-
-            }
-          }
-        },
-        "summary": "Get a single extractor",
-        "description": "Retrieves a SavedExtractor resource.",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "SavedExtractor identifier",
-            "required": true,
-            "deprecated": false,
-            "schema": {
-              "type": "string"
-            },
-            "style": "simple",
-            "explode": false
-          },
-          {
-            "name": "model",
-            "in": "query",
-            "description": "SavedExtractor model",
-            "required": false,
-            "deprecated": false,
-            "schema": {
-              "type": "string"
-            },
-            "style": "form",
-            "explode": false
-          },
-          {
-            "name": "output_instructions",
-            "in": "query",
-            "description": "SavedExtractor output_instructions",
-            "required": false,
-            "deprecated": false,
-            "schema": {
-              "type": "string"
-            },
-            "style": "form",
-            "explode": false
-          }
-        ],
-        "deprecated": false
-      },
-      "delete": {
-        "operationId": "api_apiextractors_id_delete",
-        "tags": [
-          "SavedExtractor"
-        ],
-        "responses": {
-          "204": {
-            "description": "SavedExtractor resource deleted"
-          },
-          "404": {
-            "description": "Not found",
-            "links": {
-
-            }
-          }
-        },
-        "summary": "Delete an extractor",
-        "description": "Removes the SavedExtractor resource.",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "SavedExtractor identifier",
-            "required": true,
-            "deprecated": false,
-            "schema": {
-              "type": "string"
-            },
-            "style": "simple",
-            "explode": false
-          },
-          {
-            "name": "model",
-            "in": "query",
-            "description": "SavedExtractor model",
-            "required": false,
-            "deprecated": false,
-            "schema": {
-              "type": "string"
-            },
-            "style": "form",
-            "explode": false
-          },
-          {
-            "name": "output_instructions",
-            "in": "query",
-            "description": "SavedExtractor output_instructions",
-            "required": false,
-            "deprecated": false,
-            "schema": {
-              "type": "string"
-            },
-            "style": "form",
-            "explode": false
-          }
-        ],
-        "deprecated": false
-      }
-    }
-  },
-  "components": {
-    "schemas": {
-      "ExtractionBucket": {
-        "type": "object",
-        "description": "",
-        "deprecated": false,
-        "properties": {
-          "id": {
-            "readOnly": true,
-            "type": "string"
-          },
-          "description": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "deletedAt": {
-            "readOnly": true,
-            "type": [
-              "string",
-              "null"
-            ],
-            "format": "date-time"
-          },
-          "createdAt": {
-            "readOnly": true,
-            "type": [
-              "string",
-              "null"
-            ],
-            "format": "date-time"
-          },
-          "updatedAt": {
-            "readOnly": true,
-            "type": [
-              "string",
-              "null"
-            ],
-            "format": "date-time"
-          },
-          "createdUsing": {
-            "type": "string"
-          },
-          "artifacts": {
-            "readOnly": true,
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "runs": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "format": "iri-reference",
-              "example": "https://example.com/"
-            }
-          }
-        }
-      },
-      "ExtractionBucket.csv": {
-        "type": "object",
-        "description": "",
-        "deprecated": false,
-        "properties": {
-          "id": {
-            "readOnly": true,
-            "type": "string"
-          },
-          "description": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "deletedAt": {
-            "readOnly": true,
-            "type": [
-              "string",
-              "null"
-            ],
-            "format": "date-time"
-          },
-          "createdAt": {
-            "readOnly": true,
-            "type": [
-              "string",
-              "null"
-            ],
-            "format": "date-time"
-          },
-          "updatedAt": {
-            "readOnly": true,
-            "type": [
-              "string",
-              "null"
-            ],
-            "format": "date-time"
-          },
-          "createdUsing": {
-            "type": "string"
-          },
-          "artifacts": {
-            "readOnly": true,
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "runs": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "format": "iri-reference",
-              "example": "https://example.com/"
-            }
-          }
-        }
-      },
-      "ExtractionBucket.jsonapi": {
-        "type": "object",
-        "description": "",
-        "deprecated": false,
-        "properties": {
-          "data": {
-            "type": "object",
-            "properties": {
-              "id": {
-                "type": "string"
-              },
-              "type": {
-                "type": "string"
-              },
-              "attributes": {
-                "type": "object",
-                "properties": {
-                  "_id": {
-                    "readOnly": true,
-                    "type": "string"
-                  },
-                  "description": {
-                    "type": [
-                      "string",
-                      "null"
-                    ]
-                  },
-                  "deletedAt": {
-                    "readOnly": true,
-                    "type": [
-                      "string",
-                      "null"
-                    ],
-                    "format": "date-time"
-                  },
-                  "createdAt": {
-                    "readOnly": true,
-                    "type": [
-                      "string",
-                      "null"
-                    ],
-                    "format": "date-time"
-                  },
-                  "updatedAt": {
-                    "readOnly": true,
-                    "type": [
-                      "string",
-                      "null"
-                    ],
-                    "format": "date-time"
-                  },
-                  "createdUsing": {
-                    "type": "string"
-                  },
-                  "artifacts": {
-                    "readOnly": true,
-                    "type": [
-                      "string",
-                      "null"
-                    ]
-                  }
-                }
-              },
-              "relationships": {
-                "type": "object",
-                "properties": {
-                  "runs": {
-                    "properties": {
-                      "data": {
-                        "type": "array",
-                        "items": {
-                          "type": "object",
-                          "properties": {
-                            "type": {
-                              "type": "string"
-                            },
-                            "id": {
-                              "type": "string",
-                              "format": "iri-reference"
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            },
-            "required": [
-              "type",
-              "id"
-            ]
-          },
-          "included": {
-            "description": "Related resources requested via the \"include\" query parameter.",
-            "type": "array",
-            "items": {
-              "anyOf": [
-                {
-                  "$ref": "#/components/schemas/ExtractionBucket.jsonapi"
-                }
-              ]
-            },
-            "readOnly": true,
-            "externalDocs": {
-              "url": "https://jsonapi.org/format/#fetching-includes"
-            }
-          }
-        }
-      },
-      "ExtractionBucket.jsonld": {
-        "type": "object",
-        "description": "",
-        "deprecated": false,
-        "properties": {
-          "@context": {
-            "readOnly": true,
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "object",
-                "properties": {
-                  "@vocab": {
-                    "type": "string"
-                  },
-                  "hydra": {
-                    "type": "string",
-                    "enum": [
-                      "http://www.w3.org/ns/hydra/core#"
-                    ]
-                  }
-                },
-                "required": [
-                  "@vocab",
-                  "hydra"
-                ],
-                "additionalProperties": true
-              }
-            ]
-          },
-          "@id": {
-            "readOnly": true,
-            "type": "string"
-          },
-          "@type": {
-            "readOnly": true,
-            "type": "string"
-          },
-          "id": {
-            "readOnly": true,
-            "type": "string"
-          },
-          "description": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "deletedAt": {
-            "readOnly": true,
-            "type": [
-              "string",
-              "null"
-            ],
-            "format": "date-time"
-          },
-          "createdAt": {
-            "readOnly": true,
-            "type": [
-              "string",
-              "null"
-            ],
-            "format": "date-time"
-          },
-          "updatedAt": {
-            "readOnly": true,
-            "type": [
-              "string",
-              "null"
-            ],
-            "format": "date-time"
-          },
-          "createdUsing": {
-            "type": "string"
-          },
-          "artifacts": {
-            "readOnly": true,
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "runs": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "format": "iri-reference",
-              "example": "https://example.com/"
-            }
-          }
-        }
-      },
-      "ExtractionRun": {
-        "type": "object",
-        "description": "",
-        "deprecated": false,
-        "properties": {
-          "id": {
-            "readOnly": true,
-            "type": "string"
-          },
-          "status": {
-            "type": "string"
-          },
-          "resultJson": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "partialResultJson": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "targetSchema": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "tokenStats": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "error": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "createdAt": {
-            "readOnly": true,
-            "type": [
-              "string",
-              "null"
-            ],
-            "format": "date-time"
-          },
-          "updatedAt": {
-            "readOnly": true,
-            "type": [
-              "string",
-              "null"
-            ],
-            "format": "date-time"
-          },
-          "strategy": {
-            "type": "string"
-          },
-          "model": {
-            "type": "string"
-          },
-          "includeText": {
-            "type": "boolean"
-          },
-          "includeEmbeddedImages": {
-            "type": "boolean"
-          },
-          "markEmbeddedImages": {
-            "type": "boolean"
-          },
-          "includePageImages": {
-            "type": "boolean"
-          },
-          "markPageImages": {
-            "type": "boolean"
-          },
-          "startedAt": {
-            "type": [
-              "string",
-              "null"
-            ],
-            "format": "date-time"
-          },
-          "finishedAt": {
-            "type": [
-              "string",
-              "null"
-            ],
-            "format": "date-time"
-          },
-          "chunkSize": {
-            "type": [
-              "integer",
-              "null"
-            ]
-          },
-          "duration": {
-            "readOnly": true,
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "formattedDuration": {
-            "readOnly": true,
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "totalInputTokens": {
-            "readOnly": true,
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "data": {
-            "readOnly": true,
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "partialData": {
-            "readOnly": true,
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "evaluationType": {
-            "readOnly": true,
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "bucket": {
-            "type": "string",
-            "format": "iri-reference",
-            "example": "https://example.com/"
-          },
-          "savedExtractor": {
-            "type": "string",
-            "format": "iri-reference",
-            "example": "https://example.com/"
-          }
-        }
-      },
-      "ExtractionRun.csv": {
-        "type": "object",
-        "description": "",
-        "deprecated": false,
-        "properties": {
-          "id": {
-            "readOnly": true,
-            "type": "string"
-          },
-          "status": {
-            "type": "string"
-          },
-          "resultJson": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "partialResultJson": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "targetSchema": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "tokenStats": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "error": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "createdAt": {
-            "readOnly": true,
-            "type": [
-              "string",
-              "null"
-            ],
-            "format": "date-time"
-          },
-          "updatedAt": {
-            "readOnly": true,
-            "type": [
-              "string",
-              "null"
-            ],
-            "format": "date-time"
-          },
-          "strategy": {
-            "type": "string"
-          },
-          "model": {
-            "type": "string"
-          },
-          "includeText": {
-            "type": "boolean"
-          },
-          "includeEmbeddedImages": {
-            "type": "boolean"
-          },
-          "markEmbeddedImages": {
-            "type": "boolean"
-          },
-          "includePageImages": {
-            "type": "boolean"
-          },
-          "markPageImages": {
-            "type": "boolean"
-          },
-          "startedAt": {
-            "type": [
-              "string",
-              "null"
-            ],
-            "format": "date-time"
-          },
-          "finishedAt": {
-            "type": [
-              "string",
-              "null"
-            ],
-            "format": "date-time"
-          },
-          "chunkSize": {
-            "type": [
-              "integer",
-              "null"
-            ]
-          },
-          "duration": {
-            "readOnly": true,
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "formattedDuration": {
-            "readOnly": true,
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "totalInputTokens": {
-            "readOnly": true,
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "data": {
-            "readOnly": true,
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "partialData": {
-            "readOnly": true,
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "evaluationType": {
-            "readOnly": true,
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "bucket": {
-            "type": "string",
-            "format": "iri-reference",
-            "example": "https://example.com/"
-          },
-          "savedExtractor": {
-            "type": "string",
-            "format": "iri-reference",
-            "example": "https://example.com/"
-          }
-        }
-      },
-      "ExtractionRun.jsonapi": {
-        "type": "object",
-        "description": "",
-        "deprecated": false,
-        "properties": {
-          "id": {
-            "readOnly": true,
-            "type": "string"
-          },
-          "status": {
-            "type": "string"
-          },
-          "resultJson": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "partialResultJson": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "targetSchema": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "tokenStats": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "error": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "createdAt": {
-            "readOnly": true,
-            "type": [
-              "string",
-              "null"
-            ],
-            "format": "date-time"
-          },
-          "updatedAt": {
-            "readOnly": true,
-            "type": [
-              "string",
-              "null"
-            ],
-            "format": "date-time"
-          },
-          "strategy": {
-            "type": "string"
-          },
-          "model": {
-            "type": "string"
-          },
-          "includeText": {
-            "type": "boolean"
-          },
-          "includeEmbeddedImages": {
-            "type": "boolean"
-          },
-          "markEmbeddedImages": {
-            "type": "boolean"
-          },
-          "includePageImages": {
-            "type": "boolean"
-          },
-          "markPageImages": {
-            "type": "boolean"
-          },
-          "startedAt": {
-            "type": [
-              "string",
-              "null"
-            ],
-            "format": "date-time"
-          },
-          "finishedAt": {
-            "type": [
-              "string",
-              "null"
-            ],
-            "format": "date-time"
-          },
-          "chunkSize": {
-            "type": [
-              "integer",
-              "null"
-            ]
-          },
-          "duration": {
-            "readOnly": true,
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "formattedDuration": {
-            "readOnly": true,
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "totalInputTokens": {
-            "readOnly": true,
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "data": {
-            "readOnly": true,
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "partialData": {
-            "readOnly": true,
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "evaluationType": {
-            "readOnly": true,
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "bucket": {
-            "type": "string",
-            "format": "iri-reference",
-            "example": "https://example.com/"
-          },
-          "savedExtractor": {
-            "type": "string",
-            "format": "iri-reference",
-            "example": "https://example.com/"
-          }
-        }
-      },
-      "ExtractionRun.jsonld": {
-        "type": "object",
-        "description": "",
-        "deprecated": false,
-        "properties": {
-          "@context": {
-            "readOnly": true,
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "object",
-                "properties": {
-                  "@vocab": {
-                    "type": "string"
-                  },
-                  "hydra": {
-                    "type": "string",
-                    "enum": [
-                      "http://www.w3.org/ns/hydra/core#"
-                    ]
-                  }
-                },
-                "required": [
-                  "@vocab",
-                  "hydra"
-                ],
-                "additionalProperties": true
-              }
-            ]
-          },
-          "@id": {
-            "readOnly": true,
-            "type": "string"
-          },
-          "@type": {
-            "readOnly": true,
-            "type": "string"
-          },
-          "id": {
-            "readOnly": true,
-            "type": "string"
-          },
-          "status": {
-            "type": "string"
-          },
-          "resultJson": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "partialResultJson": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "targetSchema": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "tokenStats": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "error": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "createdAt": {
-            "readOnly": true,
-            "type": [
-              "string",
-              "null"
-            ],
-            "format": "date-time"
-          },
-          "updatedAt": {
-            "readOnly": true,
-            "type": [
-              "string",
-              "null"
-            ],
-            "format": "date-time"
-          },
-          "strategy": {
-            "type": "string"
-          },
-          "model": {
-            "type": "string"
-          },
-          "includeText": {
-            "type": "boolean"
-          },
-          "includeEmbeddedImages": {
-            "type": "boolean"
-          },
-          "markEmbeddedImages": {
-            "type": "boolean"
-          },
-          "includePageImages": {
-            "type": "boolean"
-          },
-          "markPageImages": {
-            "type": "boolean"
-          },
-          "startedAt": {
-            "type": [
-              "string",
-              "null"
-            ],
-            "format": "date-time"
-          },
-          "finishedAt": {
-            "type": [
-              "string",
-              "null"
-            ],
-            "format": "date-time"
-          },
-          "chunkSize": {
-            "type": [
-              "integer",
-              "null"
-            ]
-          },
-          "duration": {
-            "readOnly": true,
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "formattedDuration": {
-            "readOnly": true,
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "totalInputTokens": {
-            "readOnly": true,
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "data": {
-            "readOnly": true,
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "partialData": {
-            "readOnly": true,
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "evaluationType": {
-            "readOnly": true,
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "bucket": {
-            "type": "string",
-            "format": "iri-reference",
-            "example": "https://example.com/"
-          },
-          "savedExtractor": {
-            "type": "string",
-            "format": "iri-reference",
-            "example": "https://example.com/"
-          }
-        }
-      },
-      "SavedExtractor": {
-        "type": "object",
-        "description": "",
-        "deprecated": false,
-        "properties": {
-          "id": {
-            "readOnly": true,
-            "type": "string"
-          },
-          "deletedAt": {
-            "readOnly": true,
-            "type": [
-              "string",
-              "null"
-            ],
-            "format": "date-time"
-          },
-          "createdAt": {
-            "readOnly": true,
-            "type": [
-              "string",
-              "null"
-            ],
-            "format": "date-time"
-          },
-          "updatedAt": {
-            "readOnly": true,
-            "type": [
-              "string",
-              "null"
-            ],
-            "format": "date-time"
-          },
-          "strategy": {
-            "type": "string"
-          },
-          "label": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "jsonSchema": {
-            "type": "string"
-          },
-          "outputInstructions": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "pageTitle": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "introductionViewHeading": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "introductionViewDescription": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "introductionViewNextButtonLabel": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "bucketViewHeading": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "bucketViewDescription": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "bucketViewBackButtonLabel": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "bucketViewContinueButtonLabel": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "bucketViewBeginButtonLabel": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "extractionViewHeading": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "extractionViewDescription": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "extractionViewBackButtonLabel": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "extractionViewContinueButtonLabel": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "extractionViewRestartButtonLabel": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "extractionViewStartButtonLabel": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "extractionViewCancelButtonLabel": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "extractionViewPauseButtonLabel": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "resultsViewHeading": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "resultsViewDescription": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "resultsViewBackButtonLabel": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "resultsViewSubmitButtonLabel": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "allowDownload": {
-            "type": "boolean"
-          },
-          "enableWebhook": {
-            "type": "boolean"
-          },
-          "webhookUrl": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "redirectUrl": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "model": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "includeText": {
-            "type": "boolean"
-          },
-          "includeEmbeddedImages": {
-            "type": "boolean"
-          },
-          "markEmbeddedImages": {
-            "type": "boolean"
-          },
-          "includePageImages": {
-            "type": "boolean"
-          },
-          "markPageImages": {
-            "type": "boolean"
-          },
-          "chunkSize": {
-            "type": [
-              "integer",
-              "null"
-            ]
-          },
-          "lastRanAt": {
-            "readOnly": true,
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "typedSchema": {
-            "readOnly": true,
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "embeddedUrl": {
-            "readOnly": true,
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "fullPageUrl": {
-            "readOnly": true,
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "runs": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "format": "iri-reference",
-              "example": "https://example.com/"
-            }
-          }
-        }
-      },
-      "SavedExtractor.csv": {
-        "type": "object",
-        "description": "",
-        "deprecated": false,
-        "properties": {
-          "id": {
-            "readOnly": true,
-            "type": "string"
-          },
-          "deletedAt": {
-            "readOnly": true,
-            "type": [
-              "string",
-              "null"
-            ],
-            "format": "date-time"
-          },
-          "createdAt": {
-            "readOnly": true,
-            "type": [
-              "string",
-              "null"
-            ],
-            "format": "date-time"
-          },
-          "updatedAt": {
-            "readOnly": true,
-            "type": [
-              "string",
-              "null"
-            ],
-            "format": "date-time"
-          },
-          "strategy": {
-            "type": "string"
-          },
-          "label": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "jsonSchema": {
-            "type": "string"
-          },
-          "outputInstructions": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "pageTitle": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "introductionViewHeading": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "introductionViewDescription": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "introductionViewNextButtonLabel": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "bucketViewHeading": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "bucketViewDescription": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "bucketViewBackButtonLabel": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "bucketViewContinueButtonLabel": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "bucketViewBeginButtonLabel": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "extractionViewHeading": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "extractionViewDescription": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "extractionViewBackButtonLabel": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "extractionViewContinueButtonLabel": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "extractionViewRestartButtonLabel": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "extractionViewStartButtonLabel": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "extractionViewCancelButtonLabel": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "extractionViewPauseButtonLabel": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "resultsViewHeading": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "resultsViewDescription": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "resultsViewBackButtonLabel": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "resultsViewSubmitButtonLabel": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "allowDownload": {
-            "type": "boolean"
-          },
-          "enableWebhook": {
-            "type": "boolean"
-          },
-          "webhookUrl": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "redirectUrl": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "model": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "includeText": {
-            "type": "boolean"
-          },
-          "includeEmbeddedImages": {
-            "type": "boolean"
-          },
-          "markEmbeddedImages": {
-            "type": "boolean"
-          },
-          "includePageImages": {
-            "type": "boolean"
-          },
-          "markPageImages": {
-            "type": "boolean"
-          },
-          "chunkSize": {
-            "type": [
-              "integer",
-              "null"
-            ]
-          },
-          "lastRanAt": {
-            "readOnly": true,
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "typedSchema": {
-            "readOnly": true,
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "embeddedUrl": {
-            "readOnly": true,
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "fullPageUrl": {
-            "readOnly": true,
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "runs": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "format": "iri-reference",
-              "example": "https://example.com/"
-            }
-          }
-        }
-      },
-      "SavedExtractor.jsonapi": {
-        "type": "object",
-        "description": "",
-        "deprecated": false,
-        "properties": {
-          "data": {
-            "type": "object",
-            "properties": {
-              "id": {
-                "type": "string"
-              },
-              "type": {
-                "type": "string"
-              },
-              "attributes": {
-                "type": "object",
-                "properties": {
-                  "_id": {
-                    "readOnly": true,
-                    "type": "string"
-                  },
-                  "deletedAt": {
-                    "readOnly": true,
-                    "type": [
-                      "string",
-                      "null"
-                    ],
-                    "format": "date-time"
-                  },
-                  "createdAt": {
-                    "readOnly": true,
-                    "type": [
-                      "string",
-                      "null"
-                    ],
-                    "format": "date-time"
-                  },
-                  "updatedAt": {
-                    "readOnly": true,
-                    "type": [
-                      "string",
-                      "null"
-                    ],
-                    "format": "date-time"
-                  },
-                  "strategy": {
-                    "type": "string"
-                  },
-                  "label": {
-                    "type": [
-                      "string",
-                      "null"
-                    ]
-                  },
-                  "jsonSchema": {
-                    "type": "string"
-                  },
-                  "outputInstructions": {
-                    "type": [
-                      "string",
-                      "null"
-                    ]
-                  },
-                  "pageTitle": {
-                    "type": [
-                      "string",
-                      "null"
-                    ]
-                  },
-                  "introductionViewHeading": {
-                    "type": [
-                      "string",
-                      "null"
-                    ]
-                  },
-                  "introductionViewDescription": {
-                    "type": [
-                      "string",
-                      "null"
-                    ]
-                  },
-                  "introductionViewNextButtonLabel": {
-                    "type": [
-                      "string",
-                      "null"
-                    ]
-                  },
-                  "bucketViewHeading": {
-                    "type": [
-                      "string",
-                      "null"
-                    ]
-                  },
-                  "bucketViewDescription": {
-                    "type": [
-                      "string",
-                      "null"
-                    ]
-                  },
-                  "bucketViewBackButtonLabel": {
-                    "type": [
-                      "string",
-                      "null"
-                    ]
-                  },
-                  "bucketViewContinueButtonLabel": {
-                    "type": [
-                      "string",
-                      "null"
-                    ]
-                  },
-                  "bucketViewBeginButtonLabel": {
-                    "type": [
-                      "string",
-                      "null"
-                    ]
-                  },
-                  "extractionViewHeading": {
-                    "type": [
-                      "string",
-                      "null"
-                    ]
-                  },
-                  "extractionViewDescription": {
-                    "type": [
-                      "string",
-                      "null"
-                    ]
-                  },
-                  "extractionViewBackButtonLabel": {
-                    "type": [
-                      "string",
-                      "null"
-                    ]
-                  },
-                  "extractionViewContinueButtonLabel": {
-                    "type": [
-                      "string",
-                      "null"
-                    ]
-                  },
-                  "extractionViewRestartButtonLabel": {
-                    "type": [
-                      "string",
-                      "null"
-                    ]
-                  },
-                  "extractionViewStartButtonLabel": {
-                    "type": [
-                      "string",
-                      "null"
-                    ]
-                  },
-                  "extractionViewCancelButtonLabel": {
-                    "type": [
-                      "string",
-                      "null"
-                    ]
-                  },
-                  "extractionViewPauseButtonLabel": {
-                    "type": [
-                      "string",
-                      "null"
-                    ]
-                  },
-                  "resultsViewHeading": {
-                    "type": [
-                      "string",
-                      "null"
-                    ]
-                  },
-                  "resultsViewDescription": {
-                    "type": [
-                      "string",
-                      "null"
-                    ]
-                  },
-                  "resultsViewBackButtonLabel": {
-                    "type": [
-                      "string",
-                      "null"
-                    ]
-                  },
-                  "resultsViewSubmitButtonLabel": {
-                    "type": [
-                      "string",
-                      "null"
-                    ]
-                  },
-                  "allowDownload": {
-                    "type": "boolean"
-                  },
-                  "enableWebhook": {
-                    "type": "boolean"
-                  },
-                  "webhookUrl": {
-                    "type": [
-                      "string",
-                      "null"
-                    ]
-                  },
-                  "redirectUrl": {
-                    "type": [
-                      "string",
-                      "null"
-                    ]
-                  },
-                  "model": {
-                    "type": [
-                      "string",
-                      "null"
-                    ]
-                  },
-                  "includeText": {
-                    "type": "boolean"
-                  },
-                  "includeEmbeddedImages": {
-                    "type": "boolean"
-                  },
-                  "markEmbeddedImages": {
-                    "type": "boolean"
-                  },
-                  "includePageImages": {
-                    "type": "boolean"
-                  },
-                  "markPageImages": {
-                    "type": "boolean"
-                  },
-                  "chunkSize": {
-                    "type": [
-                      "integer",
-                      "null"
-                    ]
-                  },
-                  "lastRanAt": {
-                    "readOnly": true,
-                    "type": [
-                      "string",
-                      "null"
-                    ]
-                  },
-                  "typedSchema": {
-                    "readOnly": true,
-                    "type": [
-                      "string",
-                      "null"
-                    ]
-                  },
-                  "embeddedUrl": {
-                    "readOnly": true,
-                    "type": [
-                      "string",
-                      "null"
-                    ]
-                  },
-                  "fullPageUrl": {
-                    "readOnly": true,
-                    "type": [
-                      "string",
-                      "null"
-                    ]
-                  }
-                }
-              },
-              "relationships": {
-                "type": "object",
-                "properties": {
-                  "runs": {
-                    "properties": {
-                      "data": {
-                        "type": "array",
-                        "items": {
-                          "type": "object",
-                          "properties": {
-                            "type": {
-                              "type": "string"
-                            },
-                            "id": {
-                              "type": "string",
-                              "format": "iri-reference"
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            },
-            "required": [
-              "type",
-              "id"
-            ]
-          },
-          "included": {
-            "description": "Related resources requested via the \"include\" query parameter.",
-            "type": "array",
-            "items": {
-              "anyOf": [
-                {
-                  "$ref": "#/components/schemas/SavedExtractor.jsonapi"
-                }
-              ]
-            },
-            "readOnly": true,
-            "externalDocs": {
-              "url": "https://jsonapi.org/format/#fetching-includes"
-            }
-          }
-        }
-      },
-      "SavedExtractor.jsonld": {
-        "type": "object",
-        "description": "",
-        "deprecated": false,
-        "properties": {
-          "@context": {
-            "readOnly": true,
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "object",
-                "properties": {
-                  "@vocab": {
-                    "type": "string"
-                  },
-                  "hydra": {
-                    "type": "string",
-                    "enum": [
-                      "http://www.w3.org/ns/hydra/core#"
-                    ]
-                  }
-                },
-                "required": [
-                  "@vocab",
-                  "hydra"
-                ],
-                "additionalProperties": true
-              }
-            ]
-          },
-          "@id": {
-            "readOnly": true,
-            "type": "string"
-          },
-          "@type": {
-            "readOnly": true,
-            "type": "string"
-          },
-          "id": {
-            "readOnly": true,
-            "type": "string"
-          },
-          "deletedAt": {
-            "readOnly": true,
-            "type": [
-              "string",
-              "null"
-            ],
-            "format": "date-time"
-          },
-          "createdAt": {
-            "readOnly": true,
-            "type": [
-              "string",
-              "null"
-            ],
-            "format": "date-time"
-          },
-          "updatedAt": {
-            "readOnly": true,
-            "type": [
-              "string",
-              "null"
-            ],
-            "format": "date-time"
-          },
-          "strategy": {
-            "type": "string"
-          },
-          "label": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "jsonSchema": {
-            "type": "string"
-          },
-          "outputInstructions": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "pageTitle": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "introductionViewHeading": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "introductionViewDescription": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "introductionViewNextButtonLabel": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "bucketViewHeading": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "bucketViewDescription": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "bucketViewBackButtonLabel": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "bucketViewContinueButtonLabel": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "bucketViewBeginButtonLabel": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "extractionViewHeading": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "extractionViewDescription": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "extractionViewBackButtonLabel": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "extractionViewContinueButtonLabel": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "extractionViewRestartButtonLabel": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "extractionViewStartButtonLabel": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "extractionViewCancelButtonLabel": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "extractionViewPauseButtonLabel": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "resultsViewHeading": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "resultsViewDescription": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "resultsViewBackButtonLabel": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "resultsViewSubmitButtonLabel": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "allowDownload": {
-            "type": "boolean"
-          },
-          "enableWebhook": {
-            "type": "boolean"
-          },
-          "webhookUrl": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "redirectUrl": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "model": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "includeText": {
-            "type": "boolean"
-          },
-          "includeEmbeddedImages": {
-            "type": "boolean"
-          },
-          "markEmbeddedImages": {
-            "type": "boolean"
-          },
-          "includePageImages": {
-            "type": "boolean"
-          },
-          "markPageImages": {
-            "type": "boolean"
-          },
-          "chunkSize": {
-            "type": [
-              "integer",
-              "null"
-            ]
-          },
-          "lastRanAt": {
-            "readOnly": true,
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "typedSchema": {
-            "readOnly": true,
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "embeddedUrl": {
-            "readOnly": true,
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "fullPageUrl": {
-            "readOnly": true,
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "runs": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "format": "iri-reference",
-              "example": "https://example.com/"
-            }
-          }
-        }
-      }
-    },
-    "responses": {
-
-    },
-    "parameters": {
-
-    },
-    "examples": {
-
-    },
-    "requestBodies": {
-
-    },
-    "headers": {
-
-    },
-    "securitySchemes": {
-      "Personal Access Token": {
-        "type": "http",
-        "description": "Value for the http bearer parameter.",
-        "scheme": "bearer",
-        "bearerFormat": "JWT"
-      }
-    }
-  },
-  "security": [
-    {
-      "Personal Access Token": []
-    }
-  ],
-  "tags": [
-    {
-      "name": "ExtractionBucket"
-    },
-    {
-      "name": "ExtractionRun",
-      "description": "An in-progress or completed extraction run"
-    },
-    {
-      "name": "SavedExtractor"
-    }
-  ],
-  "webhooks": {
-
-  }
+	"openapi": "3.1.0",
+	"info": {
+		"title": "DataWizard.ai API",
+		"description": "API access to DataWizard data extraction",
+		"contact": {
+			"name": "Lukas Mateffy",
+			"url": "https://mateffy.me",
+			"email": "hey@mateffy.me"
+		},
+		"license": {
+			"name": "",
+			"url": ""
+		},
+		"version": "1.0.0"
+	},
+	"servers": [
+		{
+			"url": "https://data-wizard.ai",
+			"description": "Data Wizard API"
+		},
+		{
+			"url": "https://data-wizard.test",
+			"description": "Local Development API"
+		}
+	],
+	"paths": {
+		"/api/buckets": {
+			"get": {
+				"operationId": "api_apibuckets_get_collection",
+				"tags": ["ExtractionBucket"],
+				"responses": {
+					"200": {
+						"description": "ExtractionBucket collection",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/ExtractionBucket"
+									}
+								}
+							},
+							"application/vnd.api+json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"links": {
+											"type": "object",
+											"properties": {
+												"self": {
+													"type": "string",
+													"format": "iri-reference"
+												},
+												"first": {
+													"type": "string",
+													"format": "iri-reference"
+												},
+												"prev": {
+													"type": "string",
+													"format": "iri-reference"
+												},
+												"next": {
+													"type": "string",
+													"format": "iri-reference"
+												},
+												"last": {
+													"type": "string",
+													"format": "iri-reference"
+												}
+											},
+											"example": {
+												"self": "string",
+												"first": "string",
+												"prev": "string",
+												"next": "string",
+												"last": "string"
+											}
+										},
+										"meta": {
+											"type": "object",
+											"properties": {
+												"totalItems": {
+													"type": "integer",
+													"minimum": 0
+												},
+												"itemsPerPage": {
+													"type": "integer",
+													"minimum": 0
+												},
+												"currentPage": {
+													"type": "integer",
+													"minimum": 0
+												}
+											}
+										},
+										"data": {
+											"type": "array",
+											"items": {
+												"$ref": "#/components/schemas/ExtractionBucket.jsonapi"
+											}
+										}
+									},
+									"required": ["data"]
+								}
+							},
+							"application/ld+json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"member": {
+											"type": "array",
+											"items": {
+												"$ref": "#/components/schemas/ExtractionBucket.jsonld"
+											}
+										},
+										"totalItems": {
+											"type": "integer",
+											"minimum": 0
+										},
+										"view": {
+											"type": "object",
+											"properties": {
+												"@id": {
+													"type": "string",
+													"format": "iri-reference"
+												},
+												"@type": {
+													"type": "string"
+												},
+												"first": {
+													"type": "string",
+													"format": "iri-reference"
+												},
+												"last": {
+													"type": "string",
+													"format": "iri-reference"
+												},
+												"previous": {
+													"type": "string",
+													"format": "iri-reference"
+												},
+												"next": {
+													"type": "string",
+													"format": "iri-reference"
+												}
+											},
+											"example": {
+												"@id": "string",
+												"type": "string",
+												"first": "string",
+												"last": "string",
+												"previous": "string",
+												"next": "string"
+											}
+										},
+										"search": {
+											"type": "object",
+											"properties": {
+												"@type": {
+													"type": "string"
+												},
+												"template": {
+													"type": "string"
+												},
+												"variableRepresentation": {
+													"type": "string"
+												},
+												"mapping": {
+													"type": "array",
+													"items": {
+														"type": "object",
+														"properties": {
+															"@type": {
+																"type": "string"
+															},
+															"variable": {
+																"type": "string"
+															},
+															"property": {
+																"type": [
+																	"string",
+																	"null"
+																]
+															},
+															"required": {
+																"type": "boolean"
+															}
+														}
+													}
+												}
+											}
+										}
+									},
+									"required": ["member"]
+								}
+							},
+							"text/csv": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/ExtractionBucket.csv"
+									}
+								}
+							},
+							"text/html": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/ExtractionBucket"
+									}
+								}
+							}
+						}
+					}
+				},
+				"summary": "List all buckets",
+				"description": "Retrieves the collection of ExtractionBucket resources.",
+				"parameters": [
+					{
+						"name": "page",
+						"in": "query",
+						"description": "The collection page number",
+						"required": false,
+						"deprecated": false,
+						"allowEmptyValue": true,
+						"schema": {
+							"type": "integer",
+							"default": 1
+						},
+						"style": "form",
+						"explode": false
+					},
+					{
+						"name": "model",
+						"in": "query",
+						"description": "ExtractionBucket model",
+						"required": false,
+						"deprecated": false,
+						"schema": {
+							"type": "string"
+						},
+						"style": "form",
+						"explode": false
+					},
+					{
+						"name": "output_instructions",
+						"in": "query",
+						"description": "ExtractionBucket output_instructions",
+						"required": false,
+						"deprecated": false,
+						"schema": {
+							"type": "string"
+						},
+						"style": "form",
+						"explode": false
+					}
+				],
+				"deprecated": false
+			},
+			"post": {
+				"operationId": "api_apibuckets_post",
+				"tags": ["ExtractionBucket"],
+				"responses": {
+					"201": {
+						"description": "ExtractionBucket resource created",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ExtractionBucket"
+								}
+							},
+							"application/vnd.api+json": {
+								"schema": {
+									"$ref": "#/components/schemas/ExtractionBucket.jsonapi"
+								}
+							},
+							"application/ld+json": {
+								"schema": {
+									"$ref": "#/components/schemas/ExtractionBucket.jsonld"
+								}
+							},
+							"text/csv": {
+								"schema": {
+									"$ref": "#/components/schemas/ExtractionBucket.csv"
+								}
+							},
+							"text/html": {
+								"schema": {
+									"$ref": "#/components/schemas/ExtractionBucket"
+								}
+							}
+						},
+						"links": {}
+					},
+					"400": {
+						"description": "Invalid input",
+						"links": {}
+					},
+					"422": {
+						"description": "Validation Error",
+						"links": {}
+					}
+				},
+				"summary": "Create a new bucket",
+				"description": "Creates a ExtractionBucket resource.",
+				"parameters": [
+					{
+						"name": "model",
+						"in": "query",
+						"description": "ExtractionBucket model",
+						"required": false,
+						"deprecated": false,
+						"schema": {
+							"type": "string"
+						},
+						"style": "form",
+						"explode": false
+					},
+					{
+						"name": "output_instructions",
+						"in": "query",
+						"description": "ExtractionBucket output_instructions",
+						"required": false,
+						"deprecated": false,
+						"schema": {
+							"type": "string"
+						},
+						"style": "form",
+						"explode": false
+					}
+				],
+				"requestBody": {
+					"description": "The new ExtractionBucket resource",
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ExtractionBucket"
+							}
+						},
+						"application/vnd.api+json": {
+							"schema": {
+								"$ref": "#/components/schemas/ExtractionBucket.jsonapi"
+							}
+						},
+						"application/ld+json": {
+							"schema": {
+								"$ref": "#/components/schemas/ExtractionBucket.jsonld"
+							}
+						},
+						"text/csv": {
+							"schema": {
+								"$ref": "#/components/schemas/ExtractionBucket.csv"
+							}
+						},
+						"text/html": {
+							"schema": {
+								"$ref": "#/components/schemas/ExtractionBucket"
+							}
+						}
+					},
+					"required": true
+				},
+				"deprecated": false
+			}
+		},
+		"/api/buckets/{id}": {
+			"get": {
+				"operationId": "api_apibuckets_id_get",
+				"tags": ["ExtractionBucket"],
+				"responses": {
+					"200": {
+						"description": "ExtractionBucket resource",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ExtractionBucket"
+								}
+							},
+							"application/vnd.api+json": {
+								"schema": {
+									"$ref": "#/components/schemas/ExtractionBucket.jsonapi"
+								}
+							},
+							"application/ld+json": {
+								"schema": {
+									"$ref": "#/components/schemas/ExtractionBucket.jsonld"
+								}
+							},
+							"text/csv": {
+								"schema": {
+									"$ref": "#/components/schemas/ExtractionBucket.csv"
+								}
+							},
+							"text/html": {
+								"schema": {
+									"$ref": "#/components/schemas/ExtractionBucket"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Not found",
+						"links": {}
+					}
+				},
+				"summary": "Get a single bucket",
+				"description": "Retrieves a ExtractionBucket resource.",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"description": "ExtractionBucket identifier",
+						"required": true,
+						"deprecated": false,
+						"schema": {
+							"type": "string"
+						},
+						"style": "simple",
+						"explode": false
+					},
+					{
+						"name": "model",
+						"in": "query",
+						"description": "ExtractionBucket model",
+						"required": false,
+						"deprecated": false,
+						"schema": {
+							"type": "string"
+						},
+						"style": "form",
+						"explode": false
+					},
+					{
+						"name": "output_instructions",
+						"in": "query",
+						"description": "ExtractionBucket output_instructions",
+						"required": false,
+						"deprecated": false,
+						"schema": {
+							"type": "string"
+						},
+						"style": "form",
+						"explode": false
+					}
+				],
+				"deprecated": false
+			},
+			"delete": {
+				"operationId": "api_apibuckets_id_delete",
+				"tags": ["ExtractionBucket"],
+				"responses": {
+					"204": {
+						"description": "ExtractionBucket resource deleted"
+					},
+					"404": {
+						"description": "Not found",
+						"links": {}
+					}
+				},
+				"summary": "Delete a bucket",
+				"description": "Removes the ExtractionBucket resource.",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"description": "ExtractionBucket identifier",
+						"required": true,
+						"deprecated": false,
+						"schema": {
+							"type": "string"
+						},
+						"style": "simple",
+						"explode": false
+					},
+					{
+						"name": "model",
+						"in": "query",
+						"description": "ExtractionBucket model",
+						"required": false,
+						"deprecated": false,
+						"schema": {
+							"type": "string"
+						},
+						"style": "form",
+						"explode": false
+					},
+					{
+						"name": "output_instructions",
+						"in": "query",
+						"description": "ExtractionBucket output_instructions",
+						"required": false,
+						"deprecated": false,
+						"schema": {
+							"type": "string"
+						},
+						"style": "form",
+						"explode": false
+					}
+				],
+				"deprecated": false
+			}
+		},
+		"/api/runs": {
+			"get": {
+				"operationId": "api_apiruns_get_collection",
+				"tags": ["ExtractionRun"],
+				"responses": {
+					"200": {
+						"description": "ExtractionRun collection",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/ExtractionRun"
+									}
+								}
+							},
+							"application/vnd.api+json": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/ExtractionRun.jsonapi"
+									}
+								}
+							},
+							"application/ld+json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"member": {
+											"type": "array",
+											"items": {
+												"$ref": "#/components/schemas/ExtractionRun.jsonld"
+											}
+										},
+										"totalItems": {
+											"type": "integer",
+											"minimum": 0
+										},
+										"view": {
+											"type": "object",
+											"properties": {
+												"@id": {
+													"type": "string",
+													"format": "iri-reference"
+												},
+												"@type": {
+													"type": "string"
+												},
+												"first": {
+													"type": "string",
+													"format": "iri-reference"
+												},
+												"last": {
+													"type": "string",
+													"format": "iri-reference"
+												},
+												"previous": {
+													"type": "string",
+													"format": "iri-reference"
+												},
+												"next": {
+													"type": "string",
+													"format": "iri-reference"
+												}
+											},
+											"example": {
+												"@id": "string",
+												"type": "string",
+												"first": "string",
+												"last": "string",
+												"previous": "string",
+												"next": "string"
+											}
+										},
+										"search": {
+											"type": "object",
+											"properties": {
+												"@type": {
+													"type": "string"
+												},
+												"template": {
+													"type": "string"
+												},
+												"variableRepresentation": {
+													"type": "string"
+												},
+												"mapping": {
+													"type": "array",
+													"items": {
+														"type": "object",
+														"properties": {
+															"@type": {
+																"type": "string"
+															},
+															"variable": {
+																"type": "string"
+															},
+															"property": {
+																"type": [
+																	"string",
+																	"null"
+																]
+															},
+															"required": {
+																"type": "boolean"
+															}
+														}
+													}
+												}
+											}
+										}
+									},
+									"required": ["member"]
+								}
+							},
+							"text/csv": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/ExtractionRun.csv"
+									}
+								}
+							},
+							"text/html": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/ExtractionRun"
+									}
+								}
+							}
+						}
+					}
+				},
+				"summary": "List all runs",
+				"description": "Retrieves the collection of ExtractionRun resources.",
+				"parameters": [
+					{
+						"name": "page",
+						"in": "query",
+						"description": "The collection page number",
+						"required": false,
+						"deprecated": false,
+						"allowEmptyValue": true,
+						"schema": {
+							"type": "integer",
+							"default": 1
+						},
+						"style": "form",
+						"explode": false
+					},
+					{
+						"name": "result_json",
+						"in": "query",
+						"description": "ExtractionRun result_json",
+						"required": false,
+						"deprecated": false,
+						"schema": {
+							"type": "string"
+						},
+						"style": "form",
+						"explode": false
+					},
+					{
+						"name": "partial_result_json",
+						"in": "query",
+						"description": "ExtractionRun partial_result_json",
+						"required": false,
+						"deprecated": false,
+						"schema": {
+							"type": "string"
+						},
+						"style": "form",
+						"explode": false
+					},
+					{
+						"name": "error",
+						"in": "query",
+						"description": "ExtractionRun error",
+						"required": false,
+						"deprecated": false,
+						"schema": {
+							"type": "string"
+						},
+						"style": "form",
+						"explode": false
+					},
+					{
+						"name": "model",
+						"in": "query",
+						"description": "ExtractionRun model",
+						"required": false,
+						"deprecated": false,
+						"schema": {
+							"type": "string"
+						},
+						"style": "form",
+						"explode": false
+					},
+					{
+						"name": "saved_extractor_id",
+						"in": "query",
+						"description": "ExtractionRun saved_extractor_id",
+						"required": false,
+						"deprecated": false,
+						"schema": {
+							"type": "string"
+						},
+						"style": "form",
+						"explode": false
+					},
+					{
+						"name": "strategy",
+						"in": "query",
+						"description": "ExtractionRun strategy",
+						"required": false,
+						"deprecated": false,
+						"schema": {
+							"type": "string"
+						},
+						"style": "form",
+						"explode": false
+					},
+					{
+						"name": "status",
+						"in": "query",
+						"description": "ExtractionRun status",
+						"required": false,
+						"deprecated": false,
+						"schema": {
+							"type": "string"
+						},
+						"style": "form",
+						"explode": false
+					}
+				],
+				"deprecated": false
+			}
+		},
+		"/api/runs/{id}": {
+			"get": {
+				"operationId": "api_apiruns_id_get",
+				"tags": ["ExtractionRun"],
+				"responses": {
+					"200": {
+						"description": "ExtractionRun resource",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ExtractionRun"
+								}
+							},
+							"application/vnd.api+json": {
+								"schema": {
+									"$ref": "#/components/schemas/ExtractionRun.jsonapi"
+								}
+							},
+							"application/ld+json": {
+								"schema": {
+									"$ref": "#/components/schemas/ExtractionRun.jsonld"
+								}
+							},
+							"text/csv": {
+								"schema": {
+									"$ref": "#/components/schemas/ExtractionRun.csv"
+								}
+							},
+							"text/html": {
+								"schema": {
+									"$ref": "#/components/schemas/ExtractionRun"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Not found",
+						"links": {}
+					}
+				},
+				"summary": "Get a single run",
+				"description": "Retrieves a ExtractionRun resource.",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"description": "ExtractionRun identifier",
+						"required": true,
+						"deprecated": false,
+						"schema": {
+							"type": "string"
+						},
+						"style": "simple",
+						"explode": false
+					},
+					{
+						"name": "result_json",
+						"in": "query",
+						"description": "ExtractionRun result_json",
+						"required": false,
+						"deprecated": false,
+						"schema": {
+							"type": "string"
+						},
+						"style": "form",
+						"explode": false
+					},
+					{
+						"name": "partial_result_json",
+						"in": "query",
+						"description": "ExtractionRun partial_result_json",
+						"required": false,
+						"deprecated": false,
+						"schema": {
+							"type": "string"
+						},
+						"style": "form",
+						"explode": false
+					},
+					{
+						"name": "error",
+						"in": "query",
+						"description": "ExtractionRun error",
+						"required": false,
+						"deprecated": false,
+						"schema": {
+							"type": "string"
+						},
+						"style": "form",
+						"explode": false
+					},
+					{
+						"name": "model",
+						"in": "query",
+						"description": "ExtractionRun model",
+						"required": false,
+						"deprecated": false,
+						"schema": {
+							"type": "string"
+						},
+						"style": "form",
+						"explode": false
+					},
+					{
+						"name": "saved_extractor_id",
+						"in": "query",
+						"description": "ExtractionRun saved_extractor_id",
+						"required": false,
+						"deprecated": false,
+						"schema": {
+							"type": "string"
+						},
+						"style": "form",
+						"explode": false
+					},
+					{
+						"name": "strategy",
+						"in": "query",
+						"description": "ExtractionRun strategy",
+						"required": false,
+						"deprecated": false,
+						"schema": {
+							"type": "string"
+						},
+						"style": "form",
+						"explode": false
+					},
+					{
+						"name": "status",
+						"in": "query",
+						"description": "ExtractionRun status",
+						"required": false,
+						"deprecated": false,
+						"schema": {
+							"type": "string"
+						},
+						"style": "form",
+						"explode": false
+					}
+				],
+				"deprecated": false
+			}
+		},
+		"/api/extractors": {
+			"get": {
+				"operationId": "api_apiextractors_get_collection",
+				"tags": ["SavedExtractor"],
+				"responses": {
+					"200": {
+						"description": "SavedExtractor collection",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/SavedExtractor"
+									}
+								}
+							},
+							"application/vnd.api+json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"links": {
+											"type": "object",
+											"properties": {
+												"self": {
+													"type": "string",
+													"format": "iri-reference"
+												},
+												"first": {
+													"type": "string",
+													"format": "iri-reference"
+												},
+												"prev": {
+													"type": "string",
+													"format": "iri-reference"
+												},
+												"next": {
+													"type": "string",
+													"format": "iri-reference"
+												},
+												"last": {
+													"type": "string",
+													"format": "iri-reference"
+												}
+											},
+											"example": {
+												"self": "string",
+												"first": "string",
+												"prev": "string",
+												"next": "string",
+												"last": "string"
+											}
+										},
+										"meta": {
+											"type": "object",
+											"properties": {
+												"totalItems": {
+													"type": "integer",
+													"minimum": 0
+												},
+												"itemsPerPage": {
+													"type": "integer",
+													"minimum": 0
+												},
+												"currentPage": {
+													"type": "integer",
+													"minimum": 0
+												}
+											}
+										},
+										"data": {
+											"type": "array",
+											"items": {
+												"$ref": "#/components/schemas/SavedExtractor.jsonapi"
+											}
+										}
+									},
+									"required": ["data"]
+								}
+							},
+							"application/ld+json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"member": {
+											"type": "array",
+											"items": {
+												"$ref": "#/components/schemas/SavedExtractor.jsonld"
+											}
+										},
+										"totalItems": {
+											"type": "integer",
+											"minimum": 0
+										},
+										"view": {
+											"type": "object",
+											"properties": {
+												"@id": {
+													"type": "string",
+													"format": "iri-reference"
+												},
+												"@type": {
+													"type": "string"
+												},
+												"first": {
+													"type": "string",
+													"format": "iri-reference"
+												},
+												"last": {
+													"type": "string",
+													"format": "iri-reference"
+												},
+												"previous": {
+													"type": "string",
+													"format": "iri-reference"
+												},
+												"next": {
+													"type": "string",
+													"format": "iri-reference"
+												}
+											},
+											"example": {
+												"@id": "string",
+												"type": "string",
+												"first": "string",
+												"last": "string",
+												"previous": "string",
+												"next": "string"
+											}
+										},
+										"search": {
+											"type": "object",
+											"properties": {
+												"@type": {
+													"type": "string"
+												},
+												"template": {
+													"type": "string"
+												},
+												"variableRepresentation": {
+													"type": "string"
+												},
+												"mapping": {
+													"type": "array",
+													"items": {
+														"type": "object",
+														"properties": {
+															"@type": {
+																"type": "string"
+															},
+															"variable": {
+																"type": "string"
+															},
+															"property": {
+																"type": [
+																	"string",
+																	"null"
+																]
+															},
+															"required": {
+																"type": "boolean"
+															}
+														}
+													}
+												}
+											}
+										}
+									},
+									"required": ["member"]
+								}
+							},
+							"text/csv": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/SavedExtractor.csv"
+									}
+								}
+							},
+							"text/html": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"$ref": "#/components/schemas/SavedExtractor"
+									}
+								}
+							}
+						}
+					}
+				},
+				"summary": "List all extractors",
+				"description": "Retrieves the collection of SavedExtractor resources.",
+				"parameters": [
+					{
+						"name": "page",
+						"in": "query",
+						"description": "The collection page number",
+						"required": false,
+						"deprecated": false,
+						"allowEmptyValue": true,
+						"schema": {
+							"type": "integer",
+							"default": 1
+						},
+						"style": "form",
+						"explode": false
+					},
+					{
+						"name": "model",
+						"in": "query",
+						"description": "SavedExtractor model",
+						"required": false,
+						"deprecated": false,
+						"schema": {
+							"type": "string"
+						},
+						"style": "form",
+						"explode": false
+					},
+					{
+						"name": "output_instructions",
+						"in": "query",
+						"description": "SavedExtractor output_instructions",
+						"required": false,
+						"deprecated": false,
+						"schema": {
+							"type": "string"
+						},
+						"style": "form",
+						"explode": false
+					}
+				],
+				"deprecated": false
+			},
+			"post": {
+				"operationId": "api_apiextractors_post",
+				"tags": ["SavedExtractor"],
+				"responses": {
+					"201": {
+						"description": "SavedExtractor resource created",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/SavedExtractor"
+								}
+							},
+							"application/vnd.api+json": {
+								"schema": {
+									"$ref": "#/components/schemas/SavedExtractor.jsonapi"
+								}
+							},
+							"application/ld+json": {
+								"schema": {
+									"$ref": "#/components/schemas/SavedExtractor.jsonld"
+								}
+							},
+							"text/csv": {
+								"schema": {
+									"$ref": "#/components/schemas/SavedExtractor.csv"
+								}
+							},
+							"text/html": {
+								"schema": {
+									"$ref": "#/components/schemas/SavedExtractor"
+								}
+							}
+						},
+						"links": {}
+					},
+					"400": {
+						"description": "Invalid input",
+						"links": {}
+					},
+					"422": {
+						"description": "Validation Error",
+						"links": {}
+					}
+				},
+				"summary": "Create a new extractor",
+				"description": "Creates a SavedExtractor resource.",
+				"parameters": [
+					{
+						"name": "model",
+						"in": "query",
+						"description": "SavedExtractor model",
+						"required": false,
+						"deprecated": false,
+						"schema": {
+							"type": "string"
+						},
+						"style": "form",
+						"explode": false
+					},
+					{
+						"name": "output_instructions",
+						"in": "query",
+						"description": "SavedExtractor output_instructions",
+						"required": false,
+						"deprecated": false,
+						"schema": {
+							"type": "string"
+						},
+						"style": "form",
+						"explode": false
+					}
+				],
+				"requestBody": {
+					"description": "The new SavedExtractor resource",
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/SavedExtractor"
+							}
+						},
+						"application/vnd.api+json": {
+							"schema": {
+								"$ref": "#/components/schemas/SavedExtractor.jsonapi"
+							}
+						},
+						"application/ld+json": {
+							"schema": {
+								"$ref": "#/components/schemas/SavedExtractor.jsonld"
+							}
+						},
+						"text/csv": {
+							"schema": {
+								"$ref": "#/components/schemas/SavedExtractor.csv"
+							}
+						},
+						"text/html": {
+							"schema": {
+								"$ref": "#/components/schemas/SavedExtractor"
+							}
+						}
+					},
+					"required": true
+				},
+				"deprecated": false
+			}
+		},
+		"/api/extractors/{id}": {
+			"get": {
+				"operationId": "api_apiextractors_id_get",
+				"tags": ["SavedExtractor"],
+				"responses": {
+					"200": {
+						"description": "SavedExtractor resource",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/SavedExtractor"
+								}
+							},
+							"application/vnd.api+json": {
+								"schema": {
+									"$ref": "#/components/schemas/SavedExtractor.jsonapi"
+								}
+							},
+							"application/ld+json": {
+								"schema": {
+									"$ref": "#/components/schemas/SavedExtractor.jsonld"
+								}
+							},
+							"text/csv": {
+								"schema": {
+									"$ref": "#/components/schemas/SavedExtractor.csv"
+								}
+							},
+							"text/html": {
+								"schema": {
+									"$ref": "#/components/schemas/SavedExtractor"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Not found",
+						"links": {}
+					}
+				},
+				"summary": "Get a single extractor",
+				"description": "Retrieves a SavedExtractor resource.",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"description": "SavedExtractor identifier",
+						"required": true,
+						"deprecated": false,
+						"schema": {
+							"type": "string"
+						},
+						"style": "simple",
+						"explode": false
+					},
+					{
+						"name": "model",
+						"in": "query",
+						"description": "SavedExtractor model",
+						"required": false,
+						"deprecated": false,
+						"schema": {
+							"type": "string"
+						},
+						"style": "form",
+						"explode": false
+					},
+					{
+						"name": "output_instructions",
+						"in": "query",
+						"description": "SavedExtractor output_instructions",
+						"required": false,
+						"deprecated": false,
+						"schema": {
+							"type": "string"
+						},
+						"style": "form",
+						"explode": false
+					}
+				],
+				"deprecated": false
+			},
+			"delete": {
+				"operationId": "api_apiextractors_id_delete",
+				"tags": ["SavedExtractor"],
+				"responses": {
+					"204": {
+						"description": "SavedExtractor resource deleted"
+					},
+					"404": {
+						"description": "Not found",
+						"links": {}
+					}
+				},
+				"summary": "Delete an extractor",
+				"description": "Removes the SavedExtractor resource.",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"description": "SavedExtractor identifier",
+						"required": true,
+						"deprecated": false,
+						"schema": {
+							"type": "string"
+						},
+						"style": "simple",
+						"explode": false
+					},
+					{
+						"name": "model",
+						"in": "query",
+						"description": "SavedExtractor model",
+						"required": false,
+						"deprecated": false,
+						"schema": {
+							"type": "string"
+						},
+						"style": "form",
+						"explode": false
+					},
+					{
+						"name": "output_instructions",
+						"in": "query",
+						"description": "SavedExtractor output_instructions",
+						"required": false,
+						"deprecated": false,
+						"schema": {
+							"type": "string"
+						},
+						"style": "form",
+						"explode": false
+					}
+				],
+				"deprecated": false
+			}
+		}
+	},
+	"components": {
+		"schemas": {
+			"ExtractionBucket": {
+				"type": "object",
+				"description": "",
+				"deprecated": false,
+				"properties": {
+					"id": {
+						"readOnly": true,
+						"type": "string"
+					},
+					"description": {
+						"type": ["string", "null"]
+					},
+					"deletedAt": {
+						"readOnly": true,
+						"type": ["string", "null"],
+						"format": "date-time"
+					},
+					"createdAt": {
+						"readOnly": true,
+						"type": ["string", "null"],
+						"format": "date-time"
+					},
+					"updatedAt": {
+						"readOnly": true,
+						"type": ["string", "null"],
+						"format": "date-time"
+					},
+					"createdUsing": {
+						"type": "string"
+					},
+					"artifacts": {
+						"readOnly": true,
+						"type": ["string", "null"]
+					},
+					"runs": {
+						"type": "array",
+						"items": {
+							"type": "string",
+							"format": "iri-reference",
+							"example": "https://example.com/"
+						}
+					}
+				}
+			},
+			"ExtractionBucket.csv": {
+				"type": "object",
+				"description": "",
+				"deprecated": false,
+				"properties": {
+					"id": {
+						"readOnly": true,
+						"type": "string"
+					},
+					"description": {
+						"type": ["string", "null"]
+					},
+					"deletedAt": {
+						"readOnly": true,
+						"type": ["string", "null"],
+						"format": "date-time"
+					},
+					"createdAt": {
+						"readOnly": true,
+						"type": ["string", "null"],
+						"format": "date-time"
+					},
+					"updatedAt": {
+						"readOnly": true,
+						"type": ["string", "null"],
+						"format": "date-time"
+					},
+					"createdUsing": {
+						"type": "string"
+					},
+					"artifacts": {
+						"readOnly": true,
+						"type": ["string", "null"]
+					},
+					"runs": {
+						"type": "array",
+						"items": {
+							"type": "string",
+							"format": "iri-reference",
+							"example": "https://example.com/"
+						}
+					}
+				}
+			},
+			"ExtractionBucket.jsonapi": {
+				"type": "object",
+				"description": "",
+				"deprecated": false,
+				"properties": {
+					"data": {
+						"type": "object",
+						"properties": {
+							"id": {
+								"type": "string"
+							},
+							"type": {
+								"type": "string"
+							},
+							"attributes": {
+								"type": "object",
+								"properties": {
+									"_id": {
+										"readOnly": true,
+										"type": "string"
+									},
+									"description": {
+										"type": ["string", "null"]
+									},
+									"deletedAt": {
+										"readOnly": true,
+										"type": ["string", "null"],
+										"format": "date-time"
+									},
+									"createdAt": {
+										"readOnly": true,
+										"type": ["string", "null"],
+										"format": "date-time"
+									},
+									"updatedAt": {
+										"readOnly": true,
+										"type": ["string", "null"],
+										"format": "date-time"
+									},
+									"createdUsing": {
+										"type": "string"
+									},
+									"artifacts": {
+										"readOnly": true,
+										"type": ["string", "null"]
+									}
+								}
+							},
+							"relationships": {
+								"type": "object",
+								"properties": {
+									"runs": {
+										"properties": {
+											"data": {
+												"type": "array",
+												"items": {
+													"type": "object",
+													"properties": {
+														"type": {
+															"type": "string"
+														},
+														"id": {
+															"type": "string",
+															"format": "iri-reference"
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						},
+						"required": ["type", "id"]
+					},
+					"included": {
+						"description": "Related resources requested via the \"include\" query parameter.",
+						"type": "array",
+						"items": {
+							"anyOf": [
+								{
+									"$ref": "#/components/schemas/ExtractionBucket.jsonapi"
+								}
+							]
+						},
+						"readOnly": true,
+						"externalDocs": {
+							"url": "https://jsonapi.org/format/#fetching-includes"
+						}
+					}
+				}
+			},
+			"ExtractionBucket.jsonld": {
+				"type": "object",
+				"description": "",
+				"deprecated": false,
+				"properties": {
+					"@context": {
+						"readOnly": true,
+						"oneOf": [
+							{
+								"type": "string"
+							},
+							{
+								"type": "object",
+								"properties": {
+									"@vocab": {
+										"type": "string"
+									},
+									"hydra": {
+										"type": "string",
+										"enum": [
+											"http://www.w3.org/ns/hydra/core#"
+										]
+									}
+								},
+								"required": ["@vocab", "hydra"],
+								"additionalProperties": true
+							}
+						]
+					},
+					"@id": {
+						"readOnly": true,
+						"type": "string"
+					},
+					"@type": {
+						"readOnly": true,
+						"type": "string"
+					},
+					"id": {
+						"readOnly": true,
+						"type": "string"
+					},
+					"description": {
+						"type": ["string", "null"]
+					},
+					"deletedAt": {
+						"readOnly": true,
+						"type": ["string", "null"],
+						"format": "date-time"
+					},
+					"createdAt": {
+						"readOnly": true,
+						"type": ["string", "null"],
+						"format": "date-time"
+					},
+					"updatedAt": {
+						"readOnly": true,
+						"type": ["string", "null"],
+						"format": "date-time"
+					},
+					"createdUsing": {
+						"type": "string"
+					},
+					"artifacts": {
+						"readOnly": true,
+						"type": ["string", "null"]
+					},
+					"runs": {
+						"type": "array",
+						"items": {
+							"type": "string",
+							"format": "iri-reference",
+							"example": "https://example.com/"
+						}
+					}
+				}
+			},
+			"ExtractionRun": {
+				"type": "object",
+				"description": "",
+				"deprecated": false,
+				"properties": {
+					"id": {
+						"readOnly": true,
+						"type": "string"
+					},
+					"status": {
+						"type": "string"
+					},
+					"resultJson": {
+						"type": ["string", "null"]
+					},
+					"partialResultJson": {
+						"type": ["string", "null"]
+					},
+					"targetSchema": {
+						"type": ["string", "null"]
+					},
+					"tokenStats": {
+						"type": ["string", "null"]
+					},
+					"error": {
+						"type": ["string", "null"]
+					},
+					"createdAt": {
+						"readOnly": true,
+						"type": ["string", "null"],
+						"format": "date-time"
+					},
+					"updatedAt": {
+						"readOnly": true,
+						"type": ["string", "null"],
+						"format": "date-time"
+					},
+					"strategy": {
+						"type": "string"
+					},
+					"model": {
+						"type": "string"
+					},
+					"includeText": {
+						"type": "boolean"
+					},
+					"includeEmbeddedImages": {
+						"type": "boolean"
+					},
+					"markEmbeddedImages": {
+						"type": "boolean"
+					},
+					"includePageImages": {
+						"type": "boolean"
+					},
+					"markPageImages": {
+						"type": "boolean"
+					},
+					"startedAt": {
+						"type": ["string", "null"],
+						"format": "date-time"
+					},
+					"finishedAt": {
+						"type": ["string", "null"],
+						"format": "date-time"
+					},
+					"chunkSize": {
+						"type": ["integer", "null"]
+					},
+					"duration": {
+						"readOnly": true,
+						"type": ["string", "null"]
+					},
+					"formattedDuration": {
+						"readOnly": true,
+						"type": ["string", "null"]
+					},
+					"totalInputTokens": {
+						"readOnly": true,
+						"type": ["string", "null"]
+					},
+					"data": {
+						"readOnly": true,
+						"type": ["string", "null"]
+					},
+					"partialData": {
+						"readOnly": true,
+						"type": ["string", "null"]
+					},
+					"evaluationType": {
+						"readOnly": true,
+						"type": ["string", "null"]
+					},
+					"bucket": {
+						"type": "string",
+						"format": "iri-reference",
+						"example": "https://example.com/"
+					},
+					"savedExtractor": {
+						"type": "string",
+						"format": "iri-reference",
+						"example": "https://example.com/"
+					}
+				}
+			},
+			"ExtractionRun.csv": {
+				"type": "object",
+				"description": "",
+				"deprecated": false,
+				"properties": {
+					"id": {
+						"readOnly": true,
+						"type": "string"
+					},
+					"status": {
+						"type": "string"
+					},
+					"resultJson": {
+						"type": ["string", "null"]
+					},
+					"partialResultJson": {
+						"type": ["string", "null"]
+					},
+					"targetSchema": {
+						"type": ["string", "null"]
+					},
+					"tokenStats": {
+						"type": ["string", "null"]
+					},
+					"error": {
+						"type": ["string", "null"]
+					},
+					"createdAt": {
+						"readOnly": true,
+						"type": ["string", "null"],
+						"format": "date-time"
+					},
+					"updatedAt": {
+						"readOnly": true,
+						"type": ["string", "null"],
+						"format": "date-time"
+					},
+					"strategy": {
+						"type": "string"
+					},
+					"model": {
+						"type": "string"
+					},
+					"includeText": {
+						"type": "boolean"
+					},
+					"includeEmbeddedImages": {
+						"type": "boolean"
+					},
+					"markEmbeddedImages": {
+						"type": "boolean"
+					},
+					"includePageImages": {
+						"type": "boolean"
+					},
+					"markPageImages": {
+						"type": "boolean"
+					},
+					"startedAt": {
+						"type": ["string", "null"],
+						"format": "date-time"
+					},
+					"finishedAt": {
+						"type": ["string", "null"],
+						"format": "date-time"
+					},
+					"chunkSize": {
+						"type": ["integer", "null"]
+					},
+					"duration": {
+						"readOnly": true,
+						"type": ["string", "null"]
+					},
+					"formattedDuration": {
+						"readOnly": true,
+						"type": ["string", "null"]
+					},
+					"totalInputTokens": {
+						"readOnly": true,
+						"type": ["string", "null"]
+					},
+					"data": {
+						"readOnly": true,
+						"type": ["string", "null"]
+					},
+					"partialData": {
+						"readOnly": true,
+						"type": ["string", "null"]
+					},
+					"evaluationType": {
+						"readOnly": true,
+						"type": ["string", "null"]
+					},
+					"bucket": {
+						"type": "string",
+						"format": "iri-reference",
+						"example": "https://example.com/"
+					},
+					"savedExtractor": {
+						"type": "string",
+						"format": "iri-reference",
+						"example": "https://example.com/"
+					}
+				}
+			},
+			"ExtractionRun.jsonapi": {
+				"type": "object",
+				"description": "",
+				"deprecated": false,
+				"properties": {
+					"id": {
+						"readOnly": true,
+						"type": "string"
+					},
+					"status": {
+						"type": "string"
+					},
+					"resultJson": {
+						"type": ["string", "null"]
+					},
+					"partialResultJson": {
+						"type": ["string", "null"]
+					},
+					"targetSchema": {
+						"type": ["string", "null"]
+					},
+					"tokenStats": {
+						"type": ["string", "null"]
+					},
+					"error": {
+						"type": ["string", "null"]
+					},
+					"createdAt": {
+						"readOnly": true,
+						"type": ["string", "null"],
+						"format": "date-time"
+					},
+					"updatedAt": {
+						"readOnly": true,
+						"type": ["string", "null"],
+						"format": "date-time"
+					},
+					"strategy": {
+						"type": "string"
+					},
+					"model": {
+						"type": "string"
+					},
+					"includeText": {
+						"type": "boolean"
+					},
+					"includeEmbeddedImages": {
+						"type": "boolean"
+					},
+					"markEmbeddedImages": {
+						"type": "boolean"
+					},
+					"includePageImages": {
+						"type": "boolean"
+					},
+					"markPageImages": {
+						"type": "boolean"
+					},
+					"startedAt": {
+						"type": ["string", "null"],
+						"format": "date-time"
+					},
+					"finishedAt": {
+						"type": ["string", "null"],
+						"format": "date-time"
+					},
+					"chunkSize": {
+						"type": ["integer", "null"]
+					},
+					"duration": {
+						"readOnly": true,
+						"type": ["string", "null"]
+					},
+					"formattedDuration": {
+						"readOnly": true,
+						"type": ["string", "null"]
+					},
+					"totalInputTokens": {
+						"readOnly": true,
+						"type": ["string", "null"]
+					},
+					"data": {
+						"readOnly": true,
+						"type": ["string", "null"]
+					},
+					"partialData": {
+						"readOnly": true,
+						"type": ["string", "null"]
+					},
+					"evaluationType": {
+						"readOnly": true,
+						"type": ["string", "null"]
+					},
+					"bucket": {
+						"type": "string",
+						"format": "iri-reference",
+						"example": "https://example.com/"
+					},
+					"savedExtractor": {
+						"type": "string",
+						"format": "iri-reference",
+						"example": "https://example.com/"
+					}
+				}
+			},
+			"ExtractionRun.jsonld": {
+				"type": "object",
+				"description": "",
+				"deprecated": false,
+				"properties": {
+					"@context": {
+						"readOnly": true,
+						"oneOf": [
+							{
+								"type": "string"
+							},
+							{
+								"type": "object",
+								"properties": {
+									"@vocab": {
+										"type": "string"
+									},
+									"hydra": {
+										"type": "string",
+										"enum": [
+											"http://www.w3.org/ns/hydra/core#"
+										]
+									}
+								},
+								"required": ["@vocab", "hydra"],
+								"additionalProperties": true
+							}
+						]
+					},
+					"@id": {
+						"readOnly": true,
+						"type": "string"
+					},
+					"@type": {
+						"readOnly": true,
+						"type": "string"
+					},
+					"id": {
+						"readOnly": true,
+						"type": "string"
+					},
+					"status": {
+						"type": "string"
+					},
+					"resultJson": {
+						"type": ["string", "null"]
+					},
+					"partialResultJson": {
+						"type": ["string", "null"]
+					},
+					"targetSchema": {
+						"type": ["string", "null"]
+					},
+					"tokenStats": {
+						"type": ["string", "null"]
+					},
+					"error": {
+						"type": ["string", "null"]
+					},
+					"createdAt": {
+						"readOnly": true,
+						"type": ["string", "null"],
+						"format": "date-time"
+					},
+					"updatedAt": {
+						"readOnly": true,
+						"type": ["string", "null"],
+						"format": "date-time"
+					},
+					"strategy": {
+						"type": "string"
+					},
+					"model": {
+						"type": "string"
+					},
+					"includeText": {
+						"type": "boolean"
+					},
+					"includeEmbeddedImages": {
+						"type": "boolean"
+					},
+					"markEmbeddedImages": {
+						"type": "boolean"
+					},
+					"includePageImages": {
+						"type": "boolean"
+					},
+					"markPageImages": {
+						"type": "boolean"
+					},
+					"startedAt": {
+						"type": ["string", "null"],
+						"format": "date-time"
+					},
+					"finishedAt": {
+						"type": ["string", "null"],
+						"format": "date-time"
+					},
+					"chunkSize": {
+						"type": ["integer", "null"]
+					},
+					"duration": {
+						"readOnly": true,
+						"type": ["string", "null"]
+					},
+					"formattedDuration": {
+						"readOnly": true,
+						"type": ["string", "null"]
+					},
+					"totalInputTokens": {
+						"readOnly": true,
+						"type": ["string", "null"]
+					},
+					"data": {
+						"readOnly": true,
+						"type": ["string", "null"]
+					},
+					"partialData": {
+						"readOnly": true,
+						"type": ["string", "null"]
+					},
+					"evaluationType": {
+						"readOnly": true,
+						"type": ["string", "null"]
+					},
+					"bucket": {
+						"type": "string",
+						"format": "iri-reference",
+						"example": "https://example.com/"
+					},
+					"savedExtractor": {
+						"type": "string",
+						"format": "iri-reference",
+						"example": "https://example.com/"
+					}
+				}
+			},
+			"SavedExtractor": {
+				"type": "object",
+				"description": "",
+				"deprecated": false,
+				"properties": {
+					"id": {
+						"readOnly": true,
+						"type": "string"
+					},
+					"deletedAt": {
+						"readOnly": true,
+						"type": ["string", "null"],
+						"format": "date-time"
+					},
+					"createdAt": {
+						"readOnly": true,
+						"type": ["string", "null"],
+						"format": "date-time"
+					},
+					"updatedAt": {
+						"readOnly": true,
+						"type": ["string", "null"],
+						"format": "date-time"
+					},
+					"strategy": {
+						"type": "string"
+					},
+					"label": {
+						"type": ["string", "null"]
+					},
+					"jsonSchema": {
+						"type": "string"
+					},
+					"outputInstructions": {
+						"type": ["string", "null"]
+					},
+					"pageTitle": {
+						"type": ["string", "null"]
+					},
+					"introductionViewHeading": {
+						"type": ["string", "null"]
+					},
+					"introductionViewDescription": {
+						"type": ["string", "null"]
+					},
+					"introductionViewNextButtonLabel": {
+						"type": ["string", "null"]
+					},
+					"bucketViewHeading": {
+						"type": ["string", "null"]
+					},
+					"bucketViewDescription": {
+						"type": ["string", "null"]
+					},
+					"bucketViewBackButtonLabel": {
+						"type": ["string", "null"]
+					},
+					"bucketViewContinueButtonLabel": {
+						"type": ["string", "null"]
+					},
+					"bucketViewBeginButtonLabel": {
+						"type": ["string", "null"]
+					},
+					"extractionViewHeading": {
+						"type": ["string", "null"]
+					},
+					"extractionViewDescription": {
+						"type": ["string", "null"]
+					},
+					"extractionViewBackButtonLabel": {
+						"type": ["string", "null"]
+					},
+					"extractionViewContinueButtonLabel": {
+						"type": ["string", "null"]
+					},
+					"extractionViewRestartButtonLabel": {
+						"type": ["string", "null"]
+					},
+					"extractionViewStartButtonLabel": {
+						"type": ["string", "null"]
+					},
+					"extractionViewCancelButtonLabel": {
+						"type": ["string", "null"]
+					},
+					"extractionViewPauseButtonLabel": {
+						"type": ["string", "null"]
+					},
+					"resultsViewHeading": {
+						"type": ["string", "null"]
+					},
+					"resultsViewDescription": {
+						"type": ["string", "null"]
+					},
+					"resultsViewBackButtonLabel": {
+						"type": ["string", "null"]
+					},
+					"resultsViewSubmitButtonLabel": {
+						"type": ["string", "null"]
+					},
+					"allowDownload": {
+						"type": "boolean"
+					},
+					"enableWebhook": {
+						"type": "boolean"
+					},
+					"webhookUrl": {
+						"type": ["string", "null"]
+					},
+					"redirectUrl": {
+						"type": ["string", "null"]
+					},
+					"model": {
+						"type": ["string", "null"]
+					},
+					"includeText": {
+						"type": "boolean"
+					},
+					"includeEmbeddedImages": {
+						"type": "boolean"
+					},
+					"markEmbeddedImages": {
+						"type": "boolean"
+					},
+					"includePageImages": {
+						"type": "boolean"
+					},
+					"markPageImages": {
+						"type": "boolean"
+					},
+					"chunkSize": {
+						"type": ["integer", "null"]
+					},
+					"lastRanAt": {
+						"readOnly": true,
+						"type": ["string", "null"]
+					},
+					"typedSchema": {
+						"readOnly": true,
+						"type": ["string", "null"]
+					},
+					"embeddedUrl": {
+						"readOnly": true,
+						"type": ["string", "null"]
+					},
+					"fullPageUrl": {
+						"readOnly": true,
+						"type": ["string", "null"]
+					},
+					"runs": {
+						"type": "array",
+						"items": {
+							"type": "string",
+							"format": "iri-reference",
+							"example": "https://example.com/"
+						}
+					}
+				}
+			},
+			"SavedExtractor.csv": {
+				"type": "object",
+				"description": "",
+				"deprecated": false,
+				"properties": {
+					"id": {
+						"readOnly": true,
+						"type": "string"
+					},
+					"deletedAt": {
+						"readOnly": true,
+						"type": ["string", "null"],
+						"format": "date-time"
+					},
+					"createdAt": {
+						"readOnly": true,
+						"type": ["string", "null"],
+						"format": "date-time"
+					},
+					"updatedAt": {
+						"readOnly": true,
+						"type": ["string", "null"],
+						"format": "date-time"
+					},
+					"strategy": {
+						"type": "string"
+					},
+					"label": {
+						"type": ["string", "null"]
+					},
+					"jsonSchema": {
+						"type": "string"
+					},
+					"outputInstructions": {
+						"type": ["string", "null"]
+					},
+					"pageTitle": {
+						"type": ["string", "null"]
+					},
+					"introductionViewHeading": {
+						"type": ["string", "null"]
+					},
+					"introductionViewDescription": {
+						"type": ["string", "null"]
+					},
+					"introductionViewNextButtonLabel": {
+						"type": ["string", "null"]
+					},
+					"bucketViewHeading": {
+						"type": ["string", "null"]
+					},
+					"bucketViewDescription": {
+						"type": ["string", "null"]
+					},
+					"bucketViewBackButtonLabel": {
+						"type": ["string", "null"]
+					},
+					"bucketViewContinueButtonLabel": {
+						"type": ["string", "null"]
+					},
+					"bucketViewBeginButtonLabel": {
+						"type": ["string", "null"]
+					},
+					"extractionViewHeading": {
+						"type": ["string", "null"]
+					},
+					"extractionViewDescription": {
+						"type": ["string", "null"]
+					},
+					"extractionViewBackButtonLabel": {
+						"type": ["string", "null"]
+					},
+					"extractionViewContinueButtonLabel": {
+						"type": ["string", "null"]
+					},
+					"extractionViewRestartButtonLabel": {
+						"type": ["string", "null"]
+					},
+					"extractionViewStartButtonLabel": {
+						"type": ["string", "null"]
+					},
+					"extractionViewCancelButtonLabel": {
+						"type": ["string", "null"]
+					},
+					"extractionViewPauseButtonLabel": {
+						"type": ["string", "null"]
+					},
+					"resultsViewHeading": {
+						"type": ["string", "null"]
+					},
+					"resultsViewDescription": {
+						"type": ["string", "null"]
+					},
+					"resultsViewBackButtonLabel": {
+						"type": ["string", "null"]
+					},
+					"resultsViewSubmitButtonLabel": {
+						"type": ["string", "null"]
+					},
+					"allowDownload": {
+						"type": "boolean"
+					},
+					"enableWebhook": {
+						"type": "boolean"
+					},
+					"webhookUrl": {
+						"type": ["string", "null"]
+					},
+					"redirectUrl": {
+						"type": ["string", "null"]
+					},
+					"model": {
+						"type": ["string", "null"]
+					},
+					"includeText": {
+						"type": "boolean"
+					},
+					"includeEmbeddedImages": {
+						"type": "boolean"
+					},
+					"markEmbeddedImages": {
+						"type": "boolean"
+					},
+					"includePageImages": {
+						"type": "boolean"
+					},
+					"markPageImages": {
+						"type": "boolean"
+					},
+					"chunkSize": {
+						"type": ["integer", "null"]
+					},
+					"lastRanAt": {
+						"readOnly": true,
+						"type": ["string", "null"]
+					},
+					"typedSchema": {
+						"readOnly": true,
+						"type": ["string", "null"]
+					},
+					"embeddedUrl": {
+						"readOnly": true,
+						"type": ["string", "null"]
+					},
+					"fullPageUrl": {
+						"readOnly": true,
+						"type": ["string", "null"]
+					},
+					"runs": {
+						"type": "array",
+						"items": {
+							"type": "string",
+							"format": "iri-reference",
+							"example": "https://example.com/"
+						}
+					}
+				}
+			},
+			"SavedExtractor.jsonapi": {
+				"type": "object",
+				"description": "",
+				"deprecated": false,
+				"properties": {
+					"data": {
+						"type": "object",
+						"properties": {
+							"id": {
+								"type": "string"
+							},
+							"type": {
+								"type": "string"
+							},
+							"attributes": {
+								"type": "object",
+								"properties": {
+									"_id": {
+										"readOnly": true,
+										"type": "string"
+									},
+									"deletedAt": {
+										"readOnly": true,
+										"type": ["string", "null"],
+										"format": "date-time"
+									},
+									"createdAt": {
+										"readOnly": true,
+										"type": ["string", "null"],
+										"format": "date-time"
+									},
+									"updatedAt": {
+										"readOnly": true,
+										"type": ["string", "null"],
+										"format": "date-time"
+									},
+									"strategy": {
+										"type": "string"
+									},
+									"label": {
+										"type": ["string", "null"]
+									},
+									"jsonSchema": {
+										"type": "string"
+									},
+									"outputInstructions": {
+										"type": ["string", "null"]
+									},
+									"pageTitle": {
+										"type": ["string", "null"]
+									},
+									"introductionViewHeading": {
+										"type": ["string", "null"]
+									},
+									"introductionViewDescription": {
+										"type": ["string", "null"]
+									},
+									"introductionViewNextButtonLabel": {
+										"type": ["string", "null"]
+									},
+									"bucketViewHeading": {
+										"type": ["string", "null"]
+									},
+									"bucketViewDescription": {
+										"type": ["string", "null"]
+									},
+									"bucketViewBackButtonLabel": {
+										"type": ["string", "null"]
+									},
+									"bucketViewContinueButtonLabel": {
+										"type": ["string", "null"]
+									},
+									"bucketViewBeginButtonLabel": {
+										"type": ["string", "null"]
+									},
+									"extractionViewHeading": {
+										"type": ["string", "null"]
+									},
+									"extractionViewDescription": {
+										"type": ["string", "null"]
+									},
+									"extractionViewBackButtonLabel": {
+										"type": ["string", "null"]
+									},
+									"extractionViewContinueButtonLabel": {
+										"type": ["string", "null"]
+									},
+									"extractionViewRestartButtonLabel": {
+										"type": ["string", "null"]
+									},
+									"extractionViewStartButtonLabel": {
+										"type": ["string", "null"]
+									},
+									"extractionViewCancelButtonLabel": {
+										"type": ["string", "null"]
+									},
+									"extractionViewPauseButtonLabel": {
+										"type": ["string", "null"]
+									},
+									"resultsViewHeading": {
+										"type": ["string", "null"]
+									},
+									"resultsViewDescription": {
+										"type": ["string", "null"]
+									},
+									"resultsViewBackButtonLabel": {
+										"type": ["string", "null"]
+									},
+									"resultsViewSubmitButtonLabel": {
+										"type": ["string", "null"]
+									},
+									"allowDownload": {
+										"type": "boolean"
+									},
+									"enableWebhook": {
+										"type": "boolean"
+									},
+									"webhookUrl": {
+										"type": ["string", "null"]
+									},
+									"redirectUrl": {
+										"type": ["string", "null"]
+									},
+									"model": {
+										"type": ["string", "null"]
+									},
+									"includeText": {
+										"type": "boolean"
+									},
+									"includeEmbeddedImages": {
+										"type": "boolean"
+									},
+									"markEmbeddedImages": {
+										"type": "boolean"
+									},
+									"includePageImages": {
+										"type": "boolean"
+									},
+									"markPageImages": {
+										"type": "boolean"
+									},
+									"chunkSize": {
+										"type": ["integer", "null"]
+									},
+									"lastRanAt": {
+										"readOnly": true,
+										"type": ["string", "null"]
+									},
+									"typedSchema": {
+										"readOnly": true,
+										"type": ["string", "null"]
+									},
+									"embeddedUrl": {
+										"readOnly": true,
+										"type": ["string", "null"]
+									},
+									"fullPageUrl": {
+										"readOnly": true,
+										"type": ["string", "null"]
+									}
+								}
+							},
+							"relationships": {
+								"type": "object",
+								"properties": {
+									"runs": {
+										"properties": {
+											"data": {
+												"type": "array",
+												"items": {
+													"type": "object",
+													"properties": {
+														"type": {
+															"type": "string"
+														},
+														"id": {
+															"type": "string",
+															"format": "iri-reference"
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						},
+						"required": ["type", "id"]
+					},
+					"included": {
+						"description": "Related resources requested via the \"include\" query parameter.",
+						"type": "array",
+						"items": {
+							"anyOf": [
+								{
+									"$ref": "#/components/schemas/SavedExtractor.jsonapi"
+								}
+							]
+						},
+						"readOnly": true,
+						"externalDocs": {
+							"url": "https://jsonapi.org/format/#fetching-includes"
+						}
+					}
+				}
+			},
+			"SavedExtractor.jsonld": {
+				"type": "object",
+				"description": "",
+				"deprecated": false,
+				"properties": {
+					"@context": {
+						"readOnly": true,
+						"oneOf": [
+							{
+								"type": "string"
+							},
+							{
+								"type": "object",
+								"properties": {
+									"@vocab": {
+										"type": "string"
+									},
+									"hydra": {
+										"type": "string",
+										"enum": [
+											"http://www.w3.org/ns/hydra/core#"
+										]
+									}
+								},
+								"required": ["@vocab", "hydra"],
+								"additionalProperties": true
+							}
+						]
+					},
+					"@id": {
+						"readOnly": true,
+						"type": "string"
+					},
+					"@type": {
+						"readOnly": true,
+						"type": "string"
+					},
+					"id": {
+						"readOnly": true,
+						"type": "string"
+					},
+					"deletedAt": {
+						"readOnly": true,
+						"type": ["string", "null"],
+						"format": "date-time"
+					},
+					"createdAt": {
+						"readOnly": true,
+						"type": ["string", "null"],
+						"format": "date-time"
+					},
+					"updatedAt": {
+						"readOnly": true,
+						"type": ["string", "null"],
+						"format": "date-time"
+					},
+					"strategy": {
+						"type": "string"
+					},
+					"label": {
+						"type": ["string", "null"]
+					},
+					"jsonSchema": {
+						"type": "string"
+					},
+					"outputInstructions": {
+						"type": ["string", "null"]
+					},
+					"pageTitle": {
+						"type": ["string", "null"]
+					},
+					"introductionViewHeading": {
+						"type": ["string", "null"]
+					},
+					"introductionViewDescription": {
+						"type": ["string", "null"]
+					},
+					"introductionViewNextButtonLabel": {
+						"type": ["string", "null"]
+					},
+					"bucketViewHeading": {
+						"type": ["string", "null"]
+					},
+					"bucketViewDescription": {
+						"type": ["string", "null"]
+					},
+					"bucketViewBackButtonLabel": {
+						"type": ["string", "null"]
+					},
+					"bucketViewContinueButtonLabel": {
+						"type": ["string", "null"]
+					},
+					"bucketViewBeginButtonLabel": {
+						"type": ["string", "null"]
+					},
+					"extractionViewHeading": {
+						"type": ["string", "null"]
+					},
+					"extractionViewDescription": {
+						"type": ["string", "null"]
+					},
+					"extractionViewBackButtonLabel": {
+						"type": ["string", "null"]
+					},
+					"extractionViewContinueButtonLabel": {
+						"type": ["string", "null"]
+					},
+					"extractionViewRestartButtonLabel": {
+						"type": ["string", "null"]
+					},
+					"extractionViewStartButtonLabel": {
+						"type": ["string", "null"]
+					},
+					"extractionViewCancelButtonLabel": {
+						"type": ["string", "null"]
+					},
+					"extractionViewPauseButtonLabel": {
+						"type": ["string", "null"]
+					},
+					"resultsViewHeading": {
+						"type": ["string", "null"]
+					},
+					"resultsViewDescription": {
+						"type": ["string", "null"]
+					},
+					"resultsViewBackButtonLabel": {
+						"type": ["string", "null"]
+					},
+					"resultsViewSubmitButtonLabel": {
+						"type": ["string", "null"]
+					},
+					"allowDownload": {
+						"type": "boolean"
+					},
+					"enableWebhook": {
+						"type": "boolean"
+					},
+					"webhookUrl": {
+						"type": ["string", "null"]
+					},
+					"redirectUrl": {
+						"type": ["string", "null"]
+					},
+					"model": {
+						"type": ["string", "null"]
+					},
+					"includeText": {
+						"type": "boolean"
+					},
+					"includeEmbeddedImages": {
+						"type": "boolean"
+					},
+					"markEmbeddedImages": {
+						"type": "boolean"
+					},
+					"includePageImages": {
+						"type": "boolean"
+					},
+					"markPageImages": {
+						"type": "boolean"
+					},
+					"chunkSize": {
+						"type": ["integer", "null"]
+					},
+					"lastRanAt": {
+						"readOnly": true,
+						"type": ["string", "null"]
+					},
+					"typedSchema": {
+						"readOnly": true,
+						"type": ["string", "null"]
+					},
+					"embeddedUrl": {
+						"readOnly": true,
+						"type": ["string", "null"]
+					},
+					"fullPageUrl": {
+						"readOnly": true,
+						"type": ["string", "null"]
+					},
+					"runs": {
+						"type": "array",
+						"items": {
+							"type": "string",
+							"format": "iri-reference",
+							"example": "https://example.com/"
+						}
+					}
+				}
+			}
+		},
+		"responses": {},
+		"parameters": {},
+		"examples": {},
+		"requestBodies": {},
+		"headers": {},
+		"securitySchemes": {
+			"Personal Access Token": {
+				"type": "http",
+				"description": "Value for the http bearer parameter.",
+				"scheme": "bearer",
+				"bearerFormat": "JWT"
+			}
+		}
+	},
+	"security": [
+		{
+			"Personal Access Token": []
+		}
+	],
+	"tags": [
+		{
+			"name": "ExtractionBucket"
+		},
+		{
+			"name": "ExtractionRun",
+			"description": "An in-progress or completed extraction run"
+		},
+		{
+			"name": "SavedExtractor"
+		}
+	],
+	"webhooks": {}
 }
